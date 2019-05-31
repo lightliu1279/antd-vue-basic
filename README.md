@@ -1,4 +1,6 @@
-# ant-design-basic
+# antd-vue-basic
+
+base on ant-design-vue
 
 ## Project setup
 ```
