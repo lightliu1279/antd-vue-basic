@@ -2,8 +2,8 @@
   <a-layout-header id="header">
     <a-icon
       class="trigger"
-      :type="$collapsed ? 'menu-unfold' : 'menu-fold'"
-      @click="()=> $collapsed = !$collapsed"
+      :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+      @click.native="trigger"
     />
   </a-layout-header>
 </template>
@@ -15,17 +15,17 @@ export default {
     collapsed: {
       type: Boolean,
       default: () => false
+    },
+    onCollapse: {
+      type: Function,
+      default: () => {}
     }
   },
-  computed: {
-    $collapsed: {
-      get() {
-        return this.collapsed;
-      },
-      set(val) {
-        this.$emit('update:collapsed', val);
-      }
+  methods: {
+    trigger() {
+      this.onCollapse(!this.collapsed);
     }
   }
+
 };
 </script>

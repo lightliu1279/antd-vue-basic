@@ -1,39 +1,36 @@
 <template>
   <div id="root">
     <a-layout id="screen">
-      <a-layout-sider
-        v-model="collapsed"
-        :trigger="null"
-        collapsible
-      >
-        <div class="logo">
-          <h2 class="logo__title">
-            <b>KKday</b>
-          </h2>
-        </div>
-
-        <Menu />
-      </a-layout-sider>
-
+      <Sider :collapsed="collapsed" :on-collapse="handleMenuCollapse" />
       <a-layout>
-        <Header :collapsed.sync="collapsed" />
+        <Header :collapsed="collapsed" :on-collapse="handleMenuCollapse" />
+
+        <a-breadcrumb>
+          <a-breadcrumb-item
+            v-for="(n, index) in breadcrumb"
+            :key="index"
+          >
+            {{ n }}
+          </a-breadcrumb-item>
+        </a-breadcrumb>
+
         <a-layout-content id="content">
-          Content
+          <router-view />
         </a-layout-content>
+
         <Footer />
       </a-layout>
     </a-layout>
   </div>
 </template>
 <script>
-import Menu from './Menu';
+import Sider from './Sider';
 import Header from './Header';
 import Footer from './Footer';
 
 export default {
-  name: 'App',
   components: {
-    Menu,
+    Sider,
     Header,
     Footer
   },
@@ -41,6 +38,16 @@ export default {
     return {
       collapsed: false
     };
+  },
+  computed: {
+    breadcrumb() {
+      return this.$route.meta.breadcrumb;
+    }
+  },
+  methods: {
+    handleMenuCollapse(collapsed) {
+      this.collapsed = collapsed;
+    }
   }
 };
 </script>
@@ -87,6 +94,16 @@ export default {
       margin: 0;
     }
   }
-}
 
+  .ant-breadcrumb {
+    // display: flex;
+    // justify-content: space-between;
+    padding: 16px 24px 0;
+    font-size: 14px;
+
+    &__current {
+      height: 15px;
+    }
+  }
+}
 </style>
