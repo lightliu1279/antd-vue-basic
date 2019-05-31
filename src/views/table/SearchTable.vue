@@ -1,8 +1,8 @@
 <template>
-  <p>table</p>
+  <p>Search Table</p>
 </template>
 <script>
 export default {
-  name: 'Table'
+  name: 'SearchTable'
 };
 </script>
