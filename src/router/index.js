@@ -21,4 +21,8 @@ const router = new VueRouter({
   ]
 });
 
+router.afterEach(to => {
+  document.querySelector('title').innerText = `${to.meta.title} | KKday Admin`;
+});
+
 export default router;
