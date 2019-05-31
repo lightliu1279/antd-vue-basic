@@ -1,34 +1,44 @@
 <template>
-  <div id="root">
-    <a-layout id="screen">
-      <Sider :collapsed="collapsed" :on-collapse="handleMenuCollapse" />
-      <a-layout>
-        <Header :collapsed="collapsed" :on-collapse="handleMenuCollapse" />
+  <a-layout id="screen">
+    <Sider
+      :collapsed="collapsed"
+      :on-collapse="handleMenuCollapse"
+      :menu="menu"
+      :current-key="[currentRoute]"
+      :default-open-key="defaultOpenKeys()"
+    />
 
-        <a-breadcrumb>
-          <a-breadcrumb-item
-            v-for="(n, index) in breadcrumb"
-            :key="index"
+    <a-layout>
+      <Header :collapsed="collapsed" :on-collapse="handleMenuCollapse" />
+
+      <a-breadcrumb>
+        <a-breadcrumb-item v-for="item in breadList" :key="item.name || ''">
+          <router-link
+            v-if="item.name != currentRoute"
+            :to="{ path: item.path === '' ? '/' : item.path }"
           >
-            {{ n }}
-          </a-breadcrumb-item>
-        </a-breadcrumb>
+            {{ item.meta.title }}
+          </router-link>
+          <span v-else>{{ item.meta.title }}</span>
+        </a-breadcrumb-item>
+      </a-breadcrumb>
 
-        <a-layout-content id="content">
-          <router-view />
-        </a-layout-content>
+      <a-layout-content id="content">
+        <router-view />
+      </a-layout-content>
 
-        <Footer />
-      </a-layout>
+      <Footer />
     </a-layout>
-  </div>
+  </a-layout>
 </template>
 <script>
 import Sider from './Sider';
 import Header from './Header';
 import Footer from './Footer';
+import { mapGetters } from 'vuex';
 
 export default {
+  name: 'Layout',
   components: {
     Sider,
     Header,
@@ -40,13 +50,26 @@ export default {
     };
   },
   computed: {
-    breadcrumb() {
-      return this.$route.meta.breadcrumb;
+    ...mapGetters([
+      'menu'
+    ]),
+    currentRoute() {
+      return this.$route.name;
+    },
+    breadList() {
+      return this.$route.matched.reduce((acc, cur) => {
+        acc.push(cur);
+        return acc;
+      }, []);
     }
   },
   methods: {
     handleMenuCollapse(collapsed) {
       this.collapsed = collapsed;
+    },
+    defaultOpenKeys() {
+      if (!this.breadList.length) return [];
+      return [this.breadList[1].name || ''];
     }
   }
 };
@@ -96,8 +119,6 @@ export default {
   }
 
   .ant-breadcrumb {
-    // display: flex;
-    // justify-content: space-between;
     padding: 16px 24px 0;
     font-size: 14px;
 

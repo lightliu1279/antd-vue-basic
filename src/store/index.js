@@ -1,28 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { routers } from '@/config/router.config';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    menu: [
-      {
-        title: 'Dashboard',
-        key: '1',
-        route: {
-          name: 'Dashboard'
-        },
-        icon: 'dashboard'
-      },
-      {
-        title: '報表',
-        key: '2',
-        route: {
-          name: 'Table'
-        },
-        icon: 'table'
-      }
-    ]
+    menu: [...routers]
   },
   getters: {
     menu: state => state.menu
