@@ -107,7 +107,6 @@ export default {
 
   .logo {
     height: 64px;
-    // background: #002140;
     display: flex;
     justify-content: center;
     align-items: center;
