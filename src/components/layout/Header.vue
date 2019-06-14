@@ -18,7 +18,10 @@
           <a-avatar class="avatar" size="small" icon="user" />
           <span>Ross Jack</span>
         </span>
-        <a-menu slot="overlay">
+        <a-menu
+          slot="overlay"
+          @click="onClick"
+        >
           <a-menu-item key="1">
             <a-icon type="user" />
             <span>帳戶設置</span>
@@ -28,9 +31,9 @@
             <span>權限管理</span>
           </a-menu-item>
           <a-menu-divider />
-          <a-menu-item key="3">
+          <a-menu-item key="login">
             <a-icon type="logout" />
-            <span>登入/登出</span>
+            <span>登出</span>
           </a-menu-item>
         </a-menu>
       </a-dropdown>
@@ -54,6 +57,11 @@ export default {
   methods: {
     trigger() {
       this.onCollapse(!this.collapsed);
+    },
+    onClick({ key }) {
+      if (key === 'login') {
+        this.$router.push({ name: key });
+      }
     }
   }
 

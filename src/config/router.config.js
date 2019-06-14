@@ -13,31 +13,31 @@ export const routers = [
     }
   },
   {
-    name: 'List',
-    path: '/list',
-    redirect: { name: 'BasicTable' },
+    name: 'Prototype',
+    path: '/prototype',
+    redirect: { name: 'Table' },
     component: {
       render: h => h('router-view')
     },
     meta: {
-      title: '列表頁',
-      icon: 'table'
+      title: 'Prototype',
+      icon: 'gold'
     },
     children: [
       {
-        name: 'BasicTable',
-        path: '/list/basic-table',
-        component: loadView('table/BasicTable'),
+        name: 'Table',
+        path: '/prototype/table',
+        component: loadView('prototype/Table'),
         meta: {
-          title: '一般列表'
+          title: '表格'
         }
       },
       {
-        name: 'SearchTable',
-        path: '/list/search-table',
-        component: loadView('table/SearchTable'),
+        name: 'Button',
+        path: '/prototype/Button',
+        component: loadView('prototype/Button'),
         meta: {
-          title: '搜尋列表'
+          title: '按鈕'
         }
       }
     ]

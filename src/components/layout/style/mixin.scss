@@ -1,58 +1,4 @@
-@import './veriable.scss' ;
- 
- // margin mixins 
-@mixin margin-xy($x: 0, $y: 0) {
-  @if $x == $y {
-    margin: $x * 1px;
-  } @else {
-    margin: $x * 1px $y * 1px;
-  }
-}
-
-
-@mixin margin-top($n: 0) {
-  margin-top: $spacer * $n;
-}
-
-@mixin margin-right($n: 0) {
-  margin-right: $spacer * $n;
-}
-
-@mixin margin-bottom($n: 0) {
-  margin-bottom: $spacer * $n;
-}
-
-@mixin margin-left($n: 0) {
-  margin-left: $spacer * $n;
-}
-
- // padding settings 
-
-@mixin padding-xy($x: 0, $y: 0) {
-  @if $x == $y {
-    padding: $x * 1px;
-  } @else {
-    padding: $x * 1px $y * 1px;
-  }
-}
-
-@mixin padding-top($n: 0) {
-  padding-top: $spacer * $n;
-}
-
-@mixin padding-right($n: 0) {
-  padding-right: $spacer * $n;
-}
-
-@mixin padding-bottom($n: 0) {
-  padding-bottom: $spacer * $n;
-}
-
-@mixin padding-left($n: 0) {
-  padding-left: $spacer * $n;
-}
-
-// max-lines 
+ // max-lines 
 @mixin max-lines($lines) {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -61,4 +7,36 @@
   -webkit-line-clamp: $lines;
   line-height: 1.2;
 }
-  
+
+// spacing
+@function name-slice($key, $value) {
+  @return str-slice($key, 0, 1)+str-slice($value, 0, 1);
+}
+
+@mixin spacing-class-map() {
+  $l: left;
+  $r: right;
+  $t: top;
+  $b: bottom;
+  $pad: padding;
+  $mar: margin;
+
+  $spacing-slugs: $pad $l, $pad $r, $pad $t, $pad $b, $mar $l, $mar $r, $mar $t, $mar $b;
+
+  @each $slug in $spacing-slugs {
+    $key: nth($slug, 1);
+    $value: nth($slug, 2);
+    @for $i from 1 through 3 {
+      .#{name-slice($key, $value)}-#{$i*5} {
+        #{$key}-#{$value}: $i*5*1px;
+      } 
+    }
+  }
+
+  .m-0 {
+    #{$mar}: 0;
+  }
+  .p-0 {
+    #{$pad}: 0;
+  }
+}

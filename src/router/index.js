@@ -17,6 +17,14 @@ const router = new VueRouter({
         title: '首頁'
       },
       component: () => import('@/components/layout')
+    },
+    {
+      name: 'login',
+      path: '/login',
+      meta: {
+        title: '登入'
+      },
+      component: () => import('@/views/user/Login')
     }
   ]
 });

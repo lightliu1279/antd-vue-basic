@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from '@/App.vue';
 import Antd from 'ant-design-vue';
-import 'ant-design-vue/dist/antd.css';
+import 'ant-design-vue/dist/antd.min.css';
 import { sync } from 'vuex-router-sync';
 
 import router from '@/router';
