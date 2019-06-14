@@ -8,7 +8,7 @@ module.exports = {
   },
   assetsDir: 'static',
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/antd-vue-basis/'
+    ? '/antd-vue-basic'
     : '/',
   chainWebpack: config => {
     config.resolve.symlinks(true);
