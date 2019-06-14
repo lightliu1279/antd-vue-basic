@@ -34,7 +34,7 @@ export const routers = [
       },
       {
         name: 'Button',
-        path: '/prototype/Button',
+        path: '/prototype/button',
         component: loadView('prototype/Button'),
         meta: {
           title: '按鈕'
