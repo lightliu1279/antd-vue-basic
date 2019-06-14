@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: 'history',
-  base: '/kkday_admin',
+  base: process.env.BASE_URL,
   routes: [
     {
       name: 'index',
