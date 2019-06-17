@@ -25,15 +25,15 @@
       </a-button>
     </a-col>
     <a-col :span="24" class="mb-15">
-      <h4>編輯</h4>
+      <h4>編輯/修改</h4>
       <a-button type="primary" icon="form" class="mr-10">
-        編輯
+        編輯/修改
       </a-button>
       <a-button type="primary" icon="form" disabled class="mr-10">
-        編輯
+        編輯/修改
       </a-button>
       <a-button type="primary" icon="form" :loading="true" class="mr-10">
-        編輯
+        編輯/修改
       </a-button>
     </a-col>
     <a-col :span="24" class="mb-15">
