@@ -13,18 +13,27 @@
       </a-button>
     </a-col>
     <a-col :span="24" class="mb-15">
-      <h4>新增/編輯</h4>
+      <h4>新增</h4>
       <a-button type="primary" icon="plus" class="mr-10">
         新增
-      </a-button>
-      <a-button type="primary" icon="form" class="mr-10">
-        編輯
       </a-button>
       <a-button type="primary" icon="plus" disabled class="mr-10">
         新增
       </a-button>
       <a-button type="primary" icon="plus" :loading="true" class="mr-10">
         新增
+      </a-button>
+    </a-col>
+    <a-col :span="24" class="mb-15">
+      <h4>編輯</h4>
+      <a-button type="primary" icon="form" class="mr-10">
+        編輯
+      </a-button>
+      <a-button type="primary" icon="form" disabled class="mr-10">
+        編輯
+      </a-button>
+      <a-button type="primary" icon="form" :loading="true" class="mr-10">
+        編輯
       </a-button>
     </a-col>
     <a-col :span="24" class="mb-15">
