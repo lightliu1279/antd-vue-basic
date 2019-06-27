@@ -3,6 +3,8 @@
 base on ant-design-vue 
 with Travis CI
 
+preview: https://lightkk.github.io/antd-vue-basic/
+
 ## Project setup
 ```
 npm install
