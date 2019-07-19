@@ -6,10 +6,6 @@
           <a-col :lg="8" :md="12" :sm="24">
             <a-form-item label="Product Name">
               <a-input
-                v-decorator="[
-                  'productName',
-                  {rules: [{ required: true, message: 'Please input product name!' }]}
-                ]"
                 placeholder="Name"
               />
             </a-form-item>
@@ -18,6 +14,10 @@
           <a-col :lg="8" :md="12" :sm="24">
             <a-form-item label="Product Oid">
               <a-input
+                v-decorator="[
+                  'oid',
+                  {rules: [{ required: true, message: 'input 12159' }]}
+                ]"
                 placeholder="Oid"
               />
             </a-form-item>
