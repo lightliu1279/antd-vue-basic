@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: 'history',
-  base: '/katalyst',
+  base: '/antd-vue-basic',
   routes: routers
 });
 
