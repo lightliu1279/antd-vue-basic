@@ -4,11 +4,13 @@
     :trigger="null"
     collapsible
     breakpoint="lg"
+    width="250px"
     @collapse="onCollapse"
   >
     <div class="logo">
       <h2 class="logo__title">
-        <b>KKday</b>
+        <b>
+          <router-link :to="{ name: 'index' }">Katalyst</router-link></b>
       </h2>
     </div>
 
@@ -16,32 +18,32 @@
       id="menu"
       theme="dark"
       mode="inline"
-      :selected-keys="currentKey"
-      :default-open-keys="defaultOpenKey"
+      :selected-keys="currentKeys"
+      :default-open-keys="defaultOpenIndex"
       @select="onSelect"
     >
       <template v-for="item in menu">
         <a-menu-item
           v-if="!item.children"
-          :key="item.name"
+          :key="item.route.name"
         >
-          <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
-          <span>{{ item.meta.title }}</span>
+          <a-icon v-if="item.icon" :type="item.icon" />
+          <span>{{ item.label }}</span>
         </a-menu-item>
 
         <template v-if="item.children">
-          <a-sub-menu :key="item.name">
+          <a-sub-menu :key="item.index">
             <span slot="title">
-              <a-icon :type="item.meta.icon" />
-              <span>{{ item.meta.title }}</span>
+              <a-icon :type="item.icon" />
+              <span>{{ item.label }}</span>
             </span>
 
             <a-menu-item
-              v-for="n in item.children"
-              :key="n.name"
+              v-for="child in item.children"
+              :key="child.route.name"
             >
-              <a-icon v-if="n.meta.icon" :type="n.meta.icon" />
-              <span>{{ n.meta.title }}</span>
+              <a-icon v-if="child.icon" :type="child.icon" />
+              <span>{{ child.label }}</span>
             </a-menu-item>
           </a-sub-menu>
         </template>
@@ -65,13 +67,17 @@ export default {
       type: Array,
       default: () => []
     },
-    currentKey: {
+    currentKeys: {
       type: Array,
       default: () => []
-    },
-    defaultOpenKey: {
-      type: Array,
-      default: () => {}
+    }
+  },
+  computed: {
+    defaultOpenIndex() {
+      return this.menu.reduce((acc, cur) => {
+        if (cur.children) acc.push(cur.index);
+        return acc;
+      }, []);
     }
   },
   methods: {

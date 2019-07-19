@@ -16,7 +16,7 @@
       <a-dropdown>
         <span class="action">
           <a-avatar class="avatar" size="small" icon="user" />
-          <span>Ross Jack</span>
+          <span>{{ user && user.name || 'admin' }}</span>
         </span>
         <a-menu
           slot="overlay"
@@ -31,7 +31,7 @@
             <span>權限管理</span>
           </a-menu-item>
           <a-menu-divider />
-          <a-menu-item key="login">
+          <a-menu-item key="logout">
             <a-icon type="logout" />
             <span>登出</span>
           </a-menu-item>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Header',
   props: {
@@ -54,17 +56,32 @@ export default {
       default: () => {}
     }
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
   methods: {
     trigger() {
       this.onCollapse(!this.collapsed);
     },
     onClick({ key }) {
-      if (key === 'login') {
-        this.$router.push({ name: key });
+      switch (key) {
+        case 'logout':
+          this.logoutAction();
+          break;
       }
+    },
+    logoutAction() {
+      const { email = null } = this.user || {};
+      if (!email) return false;
+
+      this.$store.dispatch('handleLogout', email)
+        .then(() => {
+          this.$notification.success({
+            message: 'Log out success!'
+          });
+        });
     }
   }
-
 };
 </script>
 

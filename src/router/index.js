@@ -1,36 +1,25 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { routers } from '@/config/router.config';
+import { isLogin } from '@/utils/cookie';
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      name: 'index',
-      path: '/',
-      redirect: '/dashboard',
-      children: routers,
-      meta: {
-        title: '首頁'
-      },
-      component: () => import('@/components/layout')
-    },
-    {
-      name: 'login',
-      path: '/login',
-      meta: {
-        title: '登入'
-      },
-      component: () => import('@/views/user/Login')
-    }
-  ]
+  base: '/katalyst',
+  routes: routers
 });
 
-router.afterEach(to => {
-  document.querySelector('title').innerText = `${to.meta.title} | KKday Admin`;
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'Login' && !isLogin()) {
+    return next({ name: 'Login' });
+  }
+  return next();
+});
+
+router.afterEach((to, from, next) => {
+  document.querySelector('title').innerText = `${to.meta.title} | Katalyst`;
 });
 
 export default router;

@@ -1,9 +1,9 @@
 <template>
-  <p>dashboard</p>
+  <p>Account Profile</p>
 </template>
 
 <script>
 export default {
-  name: 'Dashboard'
+  name: 'MyAccount'
 };
 </script>

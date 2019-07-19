@@ -1,96 +1,99 @@
 <template>
   <a-row>
-    <h3>Buttons</h3>
     <a-col :span="24" class="mb-15">
-      <h4>搜尋</h4>
+      <h4>Search</h4>
       <a-button type="primary" icon="search" class="mr-10">
-        搜尋
+        Search
       </a-button>
       <a-button type="primary" icon="search" disabled class="mr-10">
-        搜尋
+        Search
       </a-button>
       <a-button type="primary" icon="search" :loading="true" class="mr-10">
-        搜尋
+        Search
       </a-button>
     </a-col>
     <a-col :span="24" class="mb-15">
-      <h4>新增</h4>
+      <!--
+        Create: for create product copywriting
+        Assign: for case assignment
+      -->
+      <h4>Create / Assign</h4>
       <a-button type="primary" icon="plus" class="mr-10">
-        新增
+        Create
       </a-button>
       <a-button type="primary" icon="plus" disabled class="mr-10">
-        新增
+        Create
       </a-button>
       <a-button type="primary" icon="plus" :loading="true" class="mr-10">
-        新增
+        Create
       </a-button>
     </a-col>
     <a-col :span="24" class="mb-15">
-      <h4>編輯/修改</h4>
+      <h4>Edit</h4>
       <a-button type="primary" icon="form" class="mr-10">
-        編輯/修改
+        Edit
       </a-button>
       <a-button type="primary" icon="form" disabled class="mr-10">
-        編輯/修改
+        Edit
       </a-button>
       <a-button type="primary" icon="form" :loading="true" class="mr-10">
-        編輯/修改
+        Edit
       </a-button>
     </a-col>
     <a-col :span="24" class="mb-15">
-      <h4>確定/儲存/送出</h4>
+      <h4>Confirm / Save / Submit</h4>
       <a-button type="primary" icon="check" class="mr-10">
-        確定
+        Confirm
       </a-button>
       <a-button type="primary" icon="check" disabled class="mr-10">
-        確定
+        Confirm
       </a-button>
       <a-button type="primary" icon="check" :loading="true" class="mr-10">
-        確定
+        Confirm
       </a-button>
     </a-col>
 
     <a-col :span="24" class="mb-15">
-      <h4>取消/關閉</h4>
+      <h4>Cancel / Close</h4>
       <a-button type="default" icon="stop" class="mr-10">
-        取消
+        Cancel
       </a-button>
       <a-button type="default" icon="stop" disabled class="mr-10">
-        取消
+        Cancel
       </a-button>
       <a-button type="default" icon="stop" :loading="true" class="mr-10">
-        取消
+        Cancel
       </a-button>
     </a-col>
 
     <a-col :span="24" class="mb-15">
-      <h4>刪除</h4>
+      <h4>Delete / Remove</h4>
       <a-button type="danger" icon="delete" class="mr-10">
-        刪除
+        Delete
       </a-button>
       <a-button type="danger" icon="delete" disabled class="mr-10">
-        刪除
+        Delete
       </a-button>
       <a-button type="danger" icon="delete" :loading="true" class="mr-10">
-        刪除
+        Delete
       </a-button>
     </a-col>
 
     <a-col :span="24" class="mb-15">
-      <h4>with 通知提醒</h4>
+      <h4>with Notification</h4>
       <a-button
         type="default"
         class="mr-10"
         @click="openNotificationWithIcon('success')"
       >
-        成功通知
+        Success Notification
       </a-button>
       <a-button
         type="default"
         class="mr-10"
         @click="openNotificationWithIcon('error')"
       >
-        失敗通知
+        Fail Notification
       </a-button>
     </a-col>
   </a-row>
