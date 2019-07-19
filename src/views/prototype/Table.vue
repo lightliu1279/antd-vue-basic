@@ -26,10 +26,6 @@
           <a-col :lg="8" :md="12" :sm="24">
             <a-form-item label="Date Picker">
               <a-date-picker
-                v-decorator="[
-                  'date',
-                  {rules: [{ required: true, message: 'Please select the correct date!' }]}
-                ]"
                 style="width: 100%"
                 placeholder="Select date"
               />
