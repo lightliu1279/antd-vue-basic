@@ -1,4 +1,4 @@
-@@ -1,26 +0,0 @@
+
 language: node_js
 node_js:
 - stable
