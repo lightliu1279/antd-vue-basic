@@ -18,10 +18,6 @@
           <a-col :lg="8" :md="12" :sm="24">
             <a-form-item label="Product Oid">
               <a-input
-                v-decorator="[
-                  'productOid',
-                  {rules: [{ required: true, message: 'Please input product oid!' }]}
-                ]"
                 placeholder="Oid"
               />
             </a-form-item>
