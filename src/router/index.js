@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { routers } from '@/config/router.config';
-import { isLogin } from '@/utils/cookie';
+// import { isLogin } from '@/utils/cookie';
 
 Vue.use(VueRouter);
 
@@ -12,9 +12,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && !isLogin()) {
-    return next({ name: 'Login' });
-  }
+  // if (to.name !== 'Login' && !isLogin()) {
+  //   return next({ name: 'Login' });
+  // }
   return next();
 });
 

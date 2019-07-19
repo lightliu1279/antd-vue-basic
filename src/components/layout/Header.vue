@@ -73,13 +73,18 @@ export default {
     logoutAction() {
       const { email = null } = this.user || {};
       if (!email) return false;
-
-      this.$store.dispatch('handleLogout', email)
-        .then(() => {
-          this.$notification.success({
-            message: 'Log out success!'
-          });
+      setTimeout(() => {
+        this.$notification.success({
+          message: 'Log out success!'
         });
+        this.$router.push({ name: 'Login' });
+      }, 500);
+      // this.$store.dispatch('handleLogout', email)
+      //   .then(() => {
+      //     this.$notification.success({
+      //       message: 'Log out success!'
+      //     });
+      //   });
     }
   }
 };

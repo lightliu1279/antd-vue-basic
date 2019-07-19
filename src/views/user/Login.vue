@@ -21,6 +21,7 @@
               v-decorator="[
                 'email',
                 {
+                  initialValue: 'freelancer@gmail.com',
                   rules: [
                     { required: true, message: 'Please input your email' }
                   ],
@@ -41,7 +42,9 @@
             <a-input
               v-decorator="[
                 'password',
-                { rules: [{ required: true, message: 'Please input your password' }] }
+                {
+                  initialValue: 123456,
+                  rules: [{ required: true, message: 'Please input your password' }] }
               ]"
               :disabled="loading"
               type="password"
@@ -94,19 +97,25 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           this.loading = true;
-          const { email, password } = values;
-          this.$store.dispatch('handleLogin', { email, password })
-            .then(() => {
-              this.$notification.success({
-                message: 'Log in success!'
-              });
-              this.$router.push({ name: 'index' });
-            })
-            .catch(err => {
-              const { data } = err.response;
-              this.hasError = data.meta;
-              this.loading = false;
+          setTimeout(() => {
+            this.$notification.success({
+              message: 'Log in success!'
             });
+            this.$router.push({ name: 'index' });
+          }, 1000);
+          //     const { email, password } = values;
+          //     this.$store.dispatch('handleLogin', { email, password })
+          //       .then(() => {
+          //         this.$notification.success({
+          //           message: 'Log in success!'
+          //         });
+          //         this.$router.push({ name: 'index' });
+          //       })
+          //       .catch(err => {
+          //         const { data } = err.response;
+          //         this.hasError = data.meta;
+          //         this.loading = false;
+          //       });
         }
       });
     }

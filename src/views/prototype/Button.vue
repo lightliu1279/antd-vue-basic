@@ -96,6 +96,17 @@
         Fail Notification
       </a-button>
     </a-col>
+
+    <a-col :span="24" class="mb-15">
+      <h4>with tooltip</h4>
+      <a-tooltip placement="top" title="Prompt Text">
+        <a-button
+          type="default"
+        >
+          tooltip top
+        </a-button>
+      </a-tooltip>
+    </a-col>
   </a-row>
 </template>
 
