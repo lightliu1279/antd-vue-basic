@@ -71,8 +71,8 @@ export default {
       }
     },
     logoutAction() {
-      const { email = null } = this.user || {};
-      if (!email) return false;
+      // const { email = null } = this.user || {};
+      // if (!email) return false;
       setTimeout(() => {
         this.$notification.success({
           message: 'Log out success!'
