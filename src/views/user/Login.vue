@@ -6,10 +6,11 @@
         <h1 class="text-center app-title">
           <span class="kkday">
             <img src="@/assets/img/kkday_logo.svg" alt="">
-          </span> Translation Accelerator
+          </span>
+          <span class="ml-10">Katalyst</span>
         </h1>
-        <a-divider>login</a-divider>
-        <!-- <a-alert type="error" message="API error or login error text" closable class="mb-15" /> -->
+        <a-divider>Login</a-divider>
+        <a-alert v-if="hasError" type="error" message="wrong user's email or password" class="mb-15" />
         <a-form
           :form="form"
           class="login-form"
@@ -18,8 +19,9 @@
           <a-form-item>
             <a-input
               v-decorator="[
-                'Email',
+                'email',
                 {
+                  initialValue: 'freelancer@gmail.com',
                   rules: [
                     { required: true, message: 'Please input your email' }
                   ],
@@ -39,8 +41,10 @@
           <a-form-item>
             <a-input
               v-decorator="[
-                'Password',
-                { rules: [{ required: true, message: 'Please input your password' }] }
+                'password',
+                {
+                  initialValue: 123456,
+                  rules: [{ required: true, message: 'Please input your password' }] }
               ]"
               :disabled="loading"
               type="password"
@@ -54,24 +58,6 @@
             </a-input>
           </a-form-item>
           <a-form-item>
-            <a-checkbox
-              v-decorator="[
-                'remember',
-                {
-                  valuePropName: 'checked',
-                  initialValue: true,
-                }
-              ]"
-              :disabled="loading"
-            >
-              Remember me
-            </a-checkbox>
-            <!-- <a
-              class="login-form-forgot"
-              href=""
-            >
-              Forgot password
-            </a> -->
             <a-button
               type="primary"
               html-type="submit"
@@ -80,10 +66,6 @@
             >
               Log in
             </a-button>
-            <!-- Or
-            <a href="">
-              register now
-            </a> -->
           </a-form-item>
         </a-form>
       </div>
@@ -102,7 +84,8 @@ export default {
   },
   data() {
     return {
-      loading: false
+      loading: false,
+      hasError: null
     };
   },
   beforeCreate() {
@@ -115,8 +98,24 @@ export default {
         if (!err) {
           this.loading = true;
           setTimeout(() => {
+            this.$notification.success({
+              message: 'Log in success!'
+            });
             this.$router.push({ name: 'index' });
-          }, 2000);
+          }, 1000);
+          //     const { email, password } = values;
+          //     this.$store.dispatch('handleLogin', { email, password })
+          //       .then(() => {
+          //         this.$notification.success({
+          //           message: 'Log in success!'
+          //         });
+          //         this.$router.push({ name: 'index' });
+          //       })
+          //       .catch(err => {
+          //         const { data } = err.response;
+          //         this.hasError = data.meta;
+          //         this.loading = false;
+          //       });
         }
       });
     }

@@ -2,52 +2,52 @@
   <a-row>
     <div class="form-search pb-15">
       <a-form :form="form" @submit="handleSubmit">
-        <a-row :gutter="24">
-          <a-col :md="8" :sm="24">
-            <a-form-item label="商品名稱">
+        <a-row>
+          <a-col :lg="8" :md="12" :sm="24">
+            <a-form-item label="Product Name">
               <a-input
                 v-decorator="[
                   'productName',
-                  {rules: [{ required: true, message: '請輸入商品名稱!' }]}
+                  {rules: [{ required: true, message: 'Please input product name!' }]}
                 ]"
-                placeholder="請輸入商品名稱"
+                placeholder="Name"
               />
             </a-form-item>
           </a-col>
 
-          <a-col :md="8" :sm="24">
-            <a-form-item label="商品 id">
+          <a-col :lg="8" :md="12" :sm="24">
+            <a-form-item label="Product Oid">
               <a-input
                 v-decorator="[
-                  'productId',
-                  {rules: [{ required: true, message: '請輸入商品id!' }]}
+                  'productOid',
+                  {rules: [{ required: true, message: 'Please input product oid!' }]}
                 ]"
-                placeholder="請輸入商品id"
+                placeholder="Oid"
               />
             </a-form-item>
           </a-col>
 
-          <a-col :md="8" :sm="24">
-            <a-form-item label="選擇日期">
+          <a-col :lg="8" :md="12" :sm="24">
+            <a-form-item label="Date Picker">
               <a-date-picker
                 v-decorator="[
                   'date',
-                  {rules: [{ required: true, message: '請選擇日期!' }]}
+                  {rules: [{ required: true, message: 'Please select the correct date!' }]}
                 ]"
                 style="width: 100%"
-                placeholder="請選擇日期"
+                placeholder="Select date"
               />
             </a-form-item>
           </a-col>
 
-          <a-col :md="8" :sm="24">
-            <a-form-item label="選擇區間">
+          <a-col :lg="8" :md="12" :sm="24">
+            <a-form-item label="Range Picker">
               <a-range-picker style="width: 100%" />
             </a-form-item>
           </a-col>
 
-          <a-col :md="8" :sm="24">
-            <a-form-item label="單選">
+          <a-col :lg="8" :md="12" :sm="24">
+            <a-form-item label="Single">
               <a-select>
                 <a-select-option value="true">
                   true
@@ -59,8 +59,8 @@
             </a-form-item>
           </a-col>
 
-          <a-col :md="8" :sm="24">
-            <a-form-item label="多選">
+          <a-col :lg="8" :md="12" :sm="24">
+            <a-form-item label="Multiple">
               <a-select mode="multiple">
                 <a-select-option value="a1">
                   a1
@@ -75,10 +75,10 @@
           <a-col :sm="24">
             <div class="text-right">
               <a-button type="primary" icon="search" class="mr-10" html-type="submit">
-                搜尋
+                Search
               </a-button>
               <a-button type="default" @click="handleReset">
-                重置
+                Reset
               </a-button>
             </div>
           </a-col>
@@ -86,9 +86,7 @@
       </a-form>
     </div>
 
-    <a-divider orientation="left">
-      資料表
-    </a-divider>
+    <a-divider />
 
     <a-table
       :columns="columns"
@@ -114,6 +112,7 @@
   </a-row>
 </template>
 <script>
+// table column setting
 const columns = [{
   dataIndex: 'name',
   title: 'Name',
@@ -135,7 +134,61 @@ const columns = [{
   scopedSlots: { customRender: 'action' }
 }];
 
-import { tables } from '@/api';
+// temporarily table data
+const results = [
+  {
+    'gender': 'male',
+    'name': {
+      'title': 'mr',
+      'first': 'landon',
+      'last': 'cooper'
+    },
+    'login': {
+      'uuid': '92a92e1d-664c-4b4e-b3a5-15c0428ce398',
+      'username': 'purplegoose185',
+      'password': 'captain',
+      'salt': 'AAqVUr3D',
+      'md5': 'b7b82d10648b1632a8d89235ef435e49',
+      'sha1': '965c3a1147ba9c06b0e53a7387399b3f55e3a611',
+      'sha256': 'f5b7950952fca09b609b16cb5af493d881d33d41d591a91cefa4558348b59e8a'
+    }
+  },
+  {
+    'gender': 'male',
+    'name': {
+      'title': 'mr',
+      'first': 'willie',
+      'last': 'van der leest'
+    },
+    'login': {
+      'uuid': 'a6c76041-16fb-43ec-9ca3-ca46ee26248f',
+      'username': 'organicdog871',
+      'password': 'zxcvbnm',
+      'salt': 'cc03Hbrw',
+      'md5': 'dd2372ac5eb6f0e04655c883046b4e56',
+      'sha1': 'b97be80636d65291c5cfa557414a849b8e78c747',
+      'sha256': 'd0d526deedee552c3be26ccbcbdf501029411281b73ca05e731a27b9e987eb81'
+    }
+  },
+  {
+    'gender': 'male',
+    'name': {
+      'title': 'mr',
+      'first': 'matthew',
+      'last': 'bowman'
+    },
+    'login': {
+      'uuid': 'f65f665a-db19-4282-8d29-7f81ef4c28ab',
+      'username': 'greenbear207',
+      'password': 'allmine',
+      'salt': 'MpwzeEDk',
+      'md5': '5dccae04b3798d676ac9ee3d86d3b7f5',
+      'sha1': '179839334f8ae4b72874667f409f2bfe101d80dd',
+      'sha256': 'b0c1393b13821334e65a6550fe8c6d87bb1b790b806b21f6a35ccb907d05d74c'
+    }
+  }
+];
+
 export default {
   name: 'Table',
   data() {
@@ -152,27 +205,19 @@ export default {
     getTableList() {
       const { current = 1 } = this.pagination;
 
+      if (!current) return false;
       this.loading = true;
 
-      tables({
-        results: 10,
-        page: current,
-        ...this.params
-      })
-        .then(res => {
-          const pagination = {
-            ...this.pagination,
-            total: 100
-          };
-          this.pagination = pagination;
-          this.data = [...res.results];
-        })
-        .catch(err => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      // api send { ...this.params,  page: current }
+      setTimeout(() => {
+        const pagination = {
+          ...this.pagination,
+          total: 100
+        };
+        this.pagination = pagination;
+        this.data = [...results];
+        this.loading = false;
+      }, 1000);
     },
     handleTableChange(pagination) {
       const pager = { ...this.pagination };
@@ -185,7 +230,6 @@ export default {
       this.params = {};
       this.form.validateFields((err, values) => {
         if (!err) {
-          // console.log('Received values of form: ', values);
           this.params = { ...values };
           this.getTableList();
         }

@@ -4,42 +4,98 @@ function loadView(view) {
 
 export const routers = [
   {
-    name: 'Dashboard',
-    path: '/dashboard',
-    component: loadView('Dashboard'),
+    name: 'index',
+    path: '',
+    redirect: { name: 'MyAccount' },
     meta: {
-      icon: 'dashboard',
-      title: '分析頁'
-    }
-  },
-  {
-    name: 'Prototype',
-    path: '/prototype',
-    redirect: { name: 'Table' },
-    component: {
-      render: h => h('router-view')
+      title: 'Home'
     },
-    meta: {
-      title: 'Prototype',
-      icon: 'gold'
-    },
+    component: () => import('@/components/layout'),
     children: [
+      {
+        name: 'MyAccount',
+        path: '/MyAccount',
+        component: loadView('MyAccount'),
+        meta: {
+          title: 'My Account',
+          breadcrumb: [
+            { label: 'My Account' }
+          ]
+        }
+      },
       {
         name: 'Table',
         path: '/prototype/table',
         component: loadView('prototype/Table'),
         meta: {
-          title: '表格'
+          title: 'Table',
+          breadcrumb: [
+            { label: 'Prototype' },
+            { label: 'Table' }
+          ]
         }
       },
       {
         name: 'Button',
-        path: '/prototype/button',
+        path: '/prototype/Button',
         component: loadView('prototype/Button'),
         meta: {
-          title: '按鈕'
+          title: 'Button',
+          breadcrumb: [
+            { label: 'Prototype' },
+            { label: 'Button' }
+          ]
         }
+      },
+      {
+        name: 'List',
+        path: '/products',
+        component: loadView('products/List'),
+        meta: {
+          title: 'Products',
+          breadcrumb: [
+            { label: 'Products' }
+          ]
+        }
+      },
+      {
+        name: 'Editing',
+        path: '/products/:oid',
+        component: loadView('products/Editing'),
+        meta: {
+          title: 'Editing',
+          breadcrumb: [
+            {
+              label: 'Products',
+              route: {
+                name: 'List'
+              }
+            },
+            { label: params => params.oid || 'undefined' }
+          ]
+        }
+      },
+      {
+        name: 'Not Found',
+        path: '/404',
+        hidden: true,
+        meta: {
+          title: 'Not Found'
+        },
+        component: loadView('exception/404')
       }
     ]
+  },
+  {
+    name: 'Login',
+    path: '/login',
+    meta: {
+      title: 'Login'
+    },
+    component: loadView('user/Login')
+  },
+  {
+    path: '*',
+    redirect: '/404'
   }
 ];

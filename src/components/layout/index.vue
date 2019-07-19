@@ -4,22 +4,21 @@
       :collapsed="collapsed"
       :on-collapse="handleMenuCollapse"
       :menu="menu"
-      :current-key="[currentRoute]"
-      :default-open-key="defaultOpenKeys()"
+      :current-keys="[highLightItem]"
     />
 
     <a-layout>
       <Header :collapsed="collapsed" :on-collapse="handleMenuCollapse" />
 
       <a-breadcrumb>
-        <a-breadcrumb-item v-for="item in breadList" :key="item.name || ''">
+        <a-breadcrumb-item v-for="(item, index) in breadList" :key="index">
           <router-link
-            v-if="item.name != currentRoute"
-            :to="{ path: item.path === '' ? '/' : item.path }"
+            v-if="item.route"
+            :to="item.route"
           >
-            {{ item.meta.title }}
+            {{ breadCrumbDisplay(item.label) }}
           </router-link>
-          <span v-else>{{ item.meta.title }}</span>
+          <span v-else>{{ breadCrumbDisplay(item.label) }}</span>
         </a-breadcrumb-item>
       </a-breadcrumb>
 
@@ -53,23 +52,27 @@ export default {
     ...mapGetters([
       'menu'
     ]),
-    currentRoute() {
-      return this.$route.name;
+    highLightItem() {
+      const currentRoute = this.$route.name;
+      if (this.breadList.length > 2) {
+        const { route = null } = this.breadList[1];
+        return route && route.name || currentRoute;
+      }
+      return currentRoute;
     },
     breadList() {
-      return this.$route.matched.reduce((acc, cur) => {
-        acc.push(cur);
-        return acc;
-      }, []);
+      return this.$route.meta && this.$route.meta.breadcrumb || [];
     }
   },
   methods: {
     handleMenuCollapse(collapsed) {
       this.collapsed = collapsed;
     },
-    defaultOpenKeys() {
-      if (!this.breadList.length) return [];
-      return [this.breadList[1].name || ''];
+    breadCrumbDisplay(source) {
+      if (typeof source === 'function') {
+        return source(this.$route.params);
+      }
+      return source;
     }
   }
 };
