@@ -3,28 +3,31 @@
     <div class="form-search pb-15">
       <a-form :form="form" @submit="handleSubmit">
         <a-row type="flex">
-          <a-col :md="12" :sm="24">
+          <a-col :lg="8" :md="12" :xs="24">
             <a-form-item label="Product OID">
-              <a-input v-decorator="['oid']" placeholder="Oid" />
-            </a-form-item>
-          </a-col>
-
-          <a-col :md="12" :sm="24">
-            <a-form-item label="Latest Updated Date">
-              <a-range-picker
-                v-decorator="['updated']"
-                style="width: 100%"
+              <a-input-number
+                v-decorator="['oid']"
+                placeholder="Oid"
+                :parser="value => value.replace(/\$\s?|(,*)/g, '')"
+                :style="{ 'width': '150px' }"
               />
             </a-form-item>
           </a-col>
 
-          <a-col :md="12" :sm="24">
+          <a-col :lg="8" :md="12" :xs="24">
+            <a-form-item label="Latest Updated Date">
+              <a-range-picker
+                v-decorator="['updated']"
+              />
+            </a-form-item>
+          </a-col>
+
+          <a-col :lg="8" :md="12" :xs="24">
             <a-form-item label="Target Language">
               <a-select
                 v-decorator="['lenguages']"
                 mode="multiple"
                 placeholder="Select target languages"
-                style="min-width: 150px"
               >
                 <a-select-option v-for="(lang, key) in languages" :key="key" :value="key">
                   {{ lang }}
@@ -33,13 +36,12 @@
             </a-form-item>
           </a-col>
 
-          <a-col :md="12" :sm="24">
+          <a-col :lg="8" :md="12" :xs="24">
             <a-form-item label="Case Status">
               <a-select
                 v-decorator="['status']"
                 mode="multiple"
                 placeholder="Select status"
-                style="min-width: 150px"
               >
                 <a-select-option v-for="(s, key) in caseStatus" :key="key" :value="key">
                   {{ s.label.en }}
@@ -48,7 +50,16 @@
             </a-form-item>
           </a-col>
 
-          <a-col :md="12" :sm="24">
+          <a-col :lg="8" :md="12" :xs="24">
+            <a-form-item label="Keyword">
+              <a-input
+                v-decorator="['keyword']"
+                placeholder="Keyword"
+              />
+            </a-form-item>
+          </a-col>
+
+          <a-col :lg="8" :md="12" :xs="24">
             <a-form-item label="Machine Translation">
               <a-radio-group v-decorator="['machineTranslate', { initialValue: '1' }]">
                 <a-radio value="1">
@@ -60,28 +71,23 @@
               </a-radio-group>
             </a-form-item>
           </a-col>
-
-          <a-col :md="12" :sm="24">
-            <div class="text-right">
-              <a-button type="primary" icon="search" class="mr-10" html-type="submit">
-                Search
-              </a-button>
-              <a-button type="default" @click="handleReset">
-                Reset
-              </a-button>
-            </div>
+        </a-row>
+        <a-row type="flex" justify="end">
+          <a-col :lg="8" :md="12" :xs="24" class="text-right">
+            <a-button type="primary" icon="search" class="mr-10" html-type="submit">
+              Search
+            </a-button>
+            <a-button type="default" @click="handleReset">
+              Reset
+            </a-button>
           </a-col>
         </a-row>
       </a-form>
     </div>
     <a-divider />
-    <div class="text-right mb-15">
-      <a-button size="small">
-        Export
-      </a-button>
-      <a-divider type="vertical" />
-      <a-button size="small">
-        Import
+    <div class="mb-15">
+      <a-button type="primary">
+        Product Update
       </a-button>
     </div>
     <a-table
@@ -92,9 +98,13 @@
       :row-class-name="() => 'customRow'"
       :pagination="pagination"
       bordered
+      :row-selection="rowSelection"
       @change="handleTableChange"
     >
       <span slot="language" slot-scope="lang">{{ languages[lang] }}</span>
+      <span slot="tag" slot-scope="tag">
+        <a-tag v-if="tag" color="red">{{ tag }}</a-tag>
+      </span>
       <span
         slot="machineTranslate"
         slot-scope="auto"
@@ -135,7 +145,8 @@ const results = [
     caseId: '01',
     machineTranslate: '0',
     created: '2019-06-17 10:17:27',
-    update: '2019-06-17 10:17:27'
+    update: '2019-06-17 10:17:27',
+    tag: 'To be Updated'
   },
   {
     key: '2',
@@ -275,6 +286,12 @@ export default {
         scopedSlots: { customRender: 'language' }
       },
       {
+        dataIndex: 'tag',
+        title: 'Tag',
+        key: 'tag',
+        scopedSlots: { customRender: 'tag' }
+      },
+      {
         dataIndex: 'machineTranslate',
         title: 'Machine Translation',
         key: 'machineTranslate',
@@ -310,10 +327,25 @@ export default {
       columns,
       data: [...results],
       loading: false,
-      pagination: { pageSize: 20 },
+      pagination: {
+        ageSize: 10,
+        showSizeChanger: true
+      },
       form: this.$form.createForm(this),
       params: {}
     };
+  },
+  computed: {
+    rowSelection() {
+      return {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        }
+      };
+    }
+  },
+  created() {
+    this.getTableList();
   },
   methods: {
     getTableList() {
@@ -331,7 +363,7 @@ export default {
         this.pagination = pagination;
         this.data = [...results];
         this.loading = false;
-      }, 1000);
+      }, 500);
     },
     handleTableChange(pagination) {
       const pager = { ...this.pagination };

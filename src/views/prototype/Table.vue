@@ -2,8 +2,8 @@
   <a-row>
     <div class="form-search pb-15">
       <a-form :form="form" @submit="handleSubmit">
-        <a-row>
-          <a-col :lg="8" :md="12" :sm="24">
+        <a-row type="flex">
+          <a-col :lg="8" :md="12" :xs="24">
             <a-form-item label="Product Name">
               <a-input
                 placeholder="Name"
@@ -11,7 +11,7 @@
             </a-form-item>
           </a-col>
 
-          <a-col :lg="8" :md="12" :sm="24">
+          <a-col :lg="8" :md="12" :xs="24">
             <a-form-item label="Product Oid">
               <a-input
                 v-decorator="[
@@ -23,22 +23,22 @@
             </a-form-item>
           </a-col>
 
-          <a-col :lg="8" :md="12" :sm="24">
+          <a-col :lg="8" :md="12" :xs="24">
             <a-form-item label="Date Picker">
               <a-date-picker
-                style="width: 100%"
                 placeholder="Select date"
+                :style="{ 'width': '' }"
               />
             </a-form-item>
           </a-col>
 
-          <a-col :lg="8" :md="12" :sm="24">
+          <a-col :lg="8" :md="12" :xs="24">
             <a-form-item label="Range Picker">
-              <a-range-picker style="width: 100%" />
+              <a-range-picker />
             </a-form-item>
           </a-col>
 
-          <a-col :lg="8" :md="12" :sm="24">
+          <a-col :lg="8" :md="12" :xs="24">
             <a-form-item label="Single">
               <a-select>
                 <a-select-option value="true">
@@ -51,7 +51,7 @@
             </a-form-item>
           </a-col>
 
-          <a-col :lg="8" :md="12" :sm="24">
+          <a-col :lg="8" :md="12" :xs="24">
             <a-form-item label="Multiple">
               <a-select mode="multiple">
                 <a-select-option value="a1">
@@ -64,7 +64,7 @@
             </a-form-item>
           </a-col>
 
-          <a-col :sm="24">
+          <a-col :xs="24">
             <div class="text-right">
               <a-button type="primary" icon="search" class="mr-10" html-type="submit">
                 Search
