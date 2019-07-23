@@ -99,11 +99,32 @@
 
     <a-col :span="24" class="mb-15">
       <h4>with tooltip</h4>
-      <a-tooltip placement="top" title="Prompt Text">
+      <a-tooltip placement="top" title="Prompt Text" class="mr-10">
         <a-button
           type="default"
         >
           tooltip top
+        </a-button>
+      </a-tooltip>
+      <a-tooltip placement="bottom" title="Prompt Text" class="mr-10">
+        <a-button
+          type="default"
+        >
+          tooltip bottom
+        </a-button>
+      </a-tooltip>
+      <a-tooltip placement="left" title="Prompt Text" class="mr-10">
+        <a-button
+          type="default"
+        >
+          tooltip left
+        </a-button>
+      </a-tooltip>
+      <a-tooltip placement="right" title="Prompt Text">
+        <a-button
+          type="default"
+        >
+          tooltip right
         </a-button>
       </a-tooltip>
     </a-col>

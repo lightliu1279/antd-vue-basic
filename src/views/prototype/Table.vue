@@ -90,14 +90,14 @@
     >
       <a slot="name" slot-scope="name" href="javascript:;">{{ `${name.first} ${name.last}` }}</a>
       <span slot="action" slot-scope="record">
-        <a-button type="primary" icon="form" size="small">編輯</a-button>
+        <a-button type="primary" icon="form" size="small">Edit</a-button>
         <a-divider type="vertical" />
         <a-popconfirm
           v-if="data.length"
-          title="確定要刪除嗎？"
+          title="Are you sure delete this item？"
           @confirm="onDelete(record.login.uuid)"
         >
-          <a-button type="danger" icon="delete" size="small">刪除</a-button>
+          <a-button type="danger" icon="delete" size="small">Delete</a-button>
         </a-popconfirm>
       </span>
     </a-table>
@@ -188,7 +188,11 @@ export default {
       columns,
       data: [],
       loading: false,
-      pagination: { pageSize: 20 },
+      pagination: {
+        pageSize: 20,
+        total: 100,
+        showSizeChanger: true
+      },
       form: this.$form.createForm(this),
       params: {}
     };

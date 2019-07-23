@@ -16,7 +16,7 @@
       <a-dropdown>
         <span class="action">
           <a-avatar class="avatar" size="small" icon="user" />
-          <span>{{ user && user.name || 'admin' }}</span>
+          <span>{{ user && user.name || 'User Name' }}</span>
         </span>
         <a-menu
           slot="overlay"
