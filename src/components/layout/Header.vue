@@ -57,8 +57,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { languages } from '@/config/constants';
+import { setTimeout } from 'timers';
 
 export default {
   name: 'Header',
@@ -82,6 +83,7 @@ export default {
     ...mapGetters(['user'])
   },
   methods: {
+    ...mapActions(['handleProgress']),
     trigger() {
       this.onCollapse(!this.collapsed);
     },
@@ -94,6 +96,10 @@ export default {
     },
     selectLang({ key }) {
       this.currentLang = key;
+      this.handleProgress(true);
+      setTimeout(() => {
+        this.handleProgress(false);
+      }, 200);
     },
     logoutAction() {
       // const { email = null } = this.user || {};

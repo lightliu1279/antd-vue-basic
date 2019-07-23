@@ -14,7 +14,7 @@ Vue.config.productionTip = false;
 Nprogress.configure({
   showSpinner: false,
   easing: 'cubic-bezier(0.86, 0, 0.07, 1)',
-  speed: 600
+  speed: 500
 });
 
 sync(store, router);
