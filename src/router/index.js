@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { routers } from '@/config/router.config';
 // import { isLogin } from '@/utils/cookie';
+import Store from '@/store';
 
 Vue.use(VueRouter);
 
@@ -15,10 +16,12 @@ router.beforeEach((to, from, next) => {
   // if (to.name !== 'Login' && !isLogin()) {
   //   return next({ name: 'Login' });
   // }
+  Store.dispatch('handleProgress', true);
   return next();
 });
 
 router.afterEach((to, from, next) => {
+  Store.dispatch('handleProgress', false);
   document.querySelector('title').innerText = `${to.meta.title} | Katalyst`;
 });
 

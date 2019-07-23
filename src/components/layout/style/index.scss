@@ -82,3 +82,15 @@
     
   }
 }
+
+#nprogress {
+  .bar {
+    background: $primary;
+    box-shadow: none;
+    height: 5px;
+
+    .peg {
+      box-shadow: none;
+    }
+  }
+}

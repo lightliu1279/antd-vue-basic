@@ -3,12 +3,19 @@ import App from '@/App.vue';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.min.css';
 import { sync } from 'vuex-router-sync';
+import Nprogress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 import router from '@/router';
 import store from '@/store';
 
 Vue.use(Antd);
 Vue.config.productionTip = false;
+Nprogress.configure({
+  showSpinner: false,
+  easing: 'cubic-bezier(0.86, 0, 0.07, 1)',
+  speed: 600
+});
 
 sync(store, router);
 
