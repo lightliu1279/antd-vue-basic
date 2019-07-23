@@ -27,14 +27,14 @@
             <a-form-item label="Date Picker">
               <a-date-picker
                 placeholder="Select date"
-                :style="{ 'width': '' }"
+                :style="{ 'width': '100%' }"
               />
             </a-form-item>
           </a-col>
 
           <a-col :lg="8" :md="12" :xs="24">
             <a-form-item label="Range Picker">
-              <a-range-picker />
+              <a-range-picker :style="{ 'width': '100%' }" />
             </a-form-item>
           </a-col>
 

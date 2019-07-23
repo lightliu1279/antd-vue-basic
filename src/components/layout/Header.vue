@@ -15,6 +15,21 @@
 
       <a-dropdown>
         <span class="action">
+          {{ languages[currentLang] }}
+          <a-icon
+            type="down"
+            :style="{ 'font-size': '12px' }"
+          />
+        </span>
+        <a-menu slot="overlay" @click="selectLang">
+          <a-menu-item v-for="(lang, key) in languages" :key="key">
+            <span>{{ lang }}</span>
+          </a-menu-item>
+        </a-menu>
+      </a-dropdown>
+
+      <a-dropdown>
+        <span class="action">
           <a-avatar class="avatar" size="small" icon="user" />
           <span>{{ user && user.name || 'User Name' }}</span>
         </span>
@@ -43,6 +58,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { languages } from '@/config/constants';
 
 export default {
   name: 'Header',
@@ -55,6 +71,12 @@ export default {
       type: Function,
       default: () => {}
     }
+  },
+  data() {
+    return {
+      languages,
+      currentLang: 'zh-tw'
+    };
   },
   computed: {
     ...mapGetters(['user'])
@@ -69,6 +91,9 @@ export default {
           this.logoutAction();
           break;
       }
+    },
+    selectLang({ key }) {
+      this.currentLang = key;
     },
     logoutAction() {
       // const { email = null } = this.user || {};
