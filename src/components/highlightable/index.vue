@@ -1,34 +1,30 @@
 <template>
-  <div :style="{ 'position': 'relative' }">
-    <portal to="highlightable">
-      <div
-        v-show="showTools"
-        class="tools"
-        :style="{
-          left: `${x}px`,
-          top: `${y}px`
-        }"
-        @mousedown.prevent=""
+  <div
+    v-show="visible"
+    class="tools"
+    :style="{
+      left: `${xAxis}px`,
+      top: `${yAxis}px`
+    }"
+  >
+    <a-row>
+      <a-list
+        item-layout="horizontal"
+        :data-source="list"
       >
-        <a-row>
-          <a-list
-            item-layout="horizontal"
-            :data-source="list"
-          >
-            <a-list-item slot="renderItem" slot-scope="item">
-              <a-skeleton :loading="loading" active>
-                <a-list-item-meta
-                  description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                >
-                  <a slot="title" href="https://vue.ant.design/">{{ item.title }}</a>
-                </a-list-item-meta>
-              </a-skeleton>
-            </a-list-item>
-          </a-list>
-        </a-row>
-      </div>
-    </portal>
-    <slot />
+        <a-list-item slot="renderItem" slot-scope="item">
+          <a-skeleton :loading="loading" active>
+            <a-list-item-meta
+              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+            >
+              <h4 slot="title">
+                {{ item.title }}
+              </h4>
+            </a-list-item-meta>
+          </a-skeleton>
+        </a-list-item>
+      </a-list>
+    </a-row>
   </div>
 </template>
 
@@ -36,13 +32,25 @@
 import { setTimeout } from 'timers';
 export default {
   name: 'Highlightable',
+  props: {
+    visible: {
+      type: Boolean,
+      default() {
+        return false;
+      }
+    },
+    xAxis: {
+      type: Number,
+      default: 0
+    },
+    yAxis: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
-      x: 0,
-      y: 0,
-      showTools: false,
-      selectedText: '',
-      loading: true,
+      loading: false,
       list: [
         {
           title: 'Ant Design Title 1'
@@ -59,45 +67,12 @@ export default {
       ]
     };
   },
-  computed: {
-    highlightableEl() {
-      console.log(this.$slots.default[0].elm);
-      return this.$slots.default[0].elm;
-    }
-  },
-  mounted() {
-    window.addEventListener('mouseup', this.onMouseup);
-  },
-  beforeDestroy() {
-    window.removeEventListener('mouseup', this.onMouseup);
-  },
-  methods: {
-    onMouseup() {
+  watch: {
+    visible() {
       this.loading = true;
-      const selection = window.getSelection();
-      const startNode = selection.getRangeAt(0).startContainer.parentNode;
-      const endNode = selection.getRangeAt(0).endContainer.parentNode;
-      console.log(startNode.isSameNode(this.highlightableEl));
-      if (!startNode.isSameNode(this.highlightableEl) || !startNode.isSameNode(endNode)) {
-        this.showTools = false;
-        return;
-      }
-      const { x, y, width } = selection.getRangeAt(0).getBoundingClientRect();
-      if (!width) {
-        this.showTools = false;
-        return;
-      }
-      this.x = x + (width / 2);
-      this.y = y + window.scrollY + 40;
-      this.showTools = true;
-      this.selectedText = selection.toString();
       setTimeout(() => {
         this.loading = false;
       }, 500);
-    },
-
-    handleAction(action) {
-      this.$emit(action, this.selectedText);
     }
   }
 };
@@ -106,7 +81,7 @@ export default {
 <style lang="scss" scoped>
   .tools {
     min-height: 30px;
-    max-height: 600px;
+    max-height: 400px;
     min-width: 200px;
     max-width: 300px;
     padding: 15px;
@@ -116,7 +91,8 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    overflow-y: auto;
     z-index: 1;
+    overflow-y: auto;
+    box-shadow: 5px 5px 10px #eaeaea;
   }
 </style>

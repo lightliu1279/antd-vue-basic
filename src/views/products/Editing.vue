@@ -78,13 +78,13 @@
         <span slot="source">{{ languages[select.lang] }}</span>
         <span slot="target">{{ languages[select.target] }}</span>
         <template slot="sourceText" slot-scope="value">
-          <highlightable>
-            <!-- <a-textarea :value="value" disabled :rows="30" /> -->
-            <p>{{ value }}</p>
-          </highlightable>
+          <!-- <a-textarea :value="sanitize(value)" class="highlightable" disabled :rows="30" /> -->
+          <div class="product-content highlightable">
+            {{ sanitize(value) }}
+          </div>
         </template>
         <template slot="targetLang" slot-scope="row">
-          <a-textarea v-model="targetLang[row.key]" placeholder="" :rows="10" />
+          <a-textarea v-model="targetLang[row.key]" placeholder="" :rows="13" />
         </template>
       </a-table>
     </a-col>
@@ -160,7 +160,7 @@
         </div>
       </div>
     </a-drawer>
-
+    <!-- dictionary -->
     <a-drawer
       width="450"
       placement="right"
@@ -189,16 +189,24 @@
       <a-divider>Result</a-divider>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, fugiat quos! Accusamus accusantium consequatur fugiat, a quae temporibus praesentium consectetur.</p>
     </a-drawer>
-    <!-- dictionary -->
+
+    <portal to="highlightable">
+      <highlightable
+        :visible.sync="dialog.visible"
+        :x-axis="dialog.x"
+        :y-axis="dialog.y"
+      />
+    </portal>
   </a-row>
 </template>
 <script>
 import { languages, caseStatus, editLangColumn } from '@/config/constants';
 import highlightable from '@/components/highlightable';
+import sanitizeHtml from 'sanitize-html';
 
 const sourceLang = {
   name: '【曼谷泰式按摩 】Lets Relax Spa 按摩體驗預約（Siam Square One 分店',
-  experience: '－ 行程特色 －\n\n・日本大阪環球影城™官方授權門票，中文介面讓您輕鬆訂購\n・訂購後 2 小時內拿到電子門票！現場掃QRcode即可入園遊玩\n・有效期限內可任選一天入園，不需指定日期，保有行程絕佳彈性\n\n\n\n－ 使用說明 －\n\n．使用對象：限非日本國籍購買\n．兌換期限：有效期限內，可任選一日入園\n．有效期限：即日起至2019年01月09日止\n．營業時間：9:00am-9:00pm \n．地址：554-0031 Osaka Prefecture, Osaka, Konohana Ward, Sakurajima, 2-1-33\n．如何抵達：大阪市區搭乘JR環狀線，於西九條站換乘JR櫻島線，在UniversalCity站下車，徒步三分鐘即達\n\n\n\n－ 票券介紹 －\n\n日本環球影城® （Universal Studios Japan® ）是一座以好萊塢電影為主題的大型樂園，更是去大阪旅遊不能錯過的世界級主題樂園。園區內代表性的遊樂設施有哈利波特禁忌之旅、小小兵・瘋狂乘車遊、飛天翼龍、好萊塢美夢・乘車遊等，快來親身感受這世界級的娛樂體驗吧！\n\n\n\n－ 方案介紹 －\n\n．成人票：12歲至64歲\n．孩童票：4歲至11歲\n＊0-3歲幼兒免費入園，KKday無販售65歲以上敬老票。\n\n\n\n－ 重要資訊 － \n\n．此票券一旦付款成功，將無法退換或更改\n．此票券有效期限內，可任選一日入園，將不需指定入園時間\n．此票券只提供給非日本、韓國國籍的旅客購買\n\n\n\n－ 兌換方式 －\n \n1. 訂單成立後，在訂購人email信箱內收到電子門票。\n2. 收到電子門票後建議列印出來，當天入園時掃描 QR code 直接入場。',
+  experience: '－ 行程特色 －\n\n  <a href="#">・日本大阪環球影城™官方授權門票，中文介面讓您輕鬆訂購</a>\n・訂購後 2 小時內拿到電子門票！現場掃QRcode即可入園遊玩\n・有效期限內可任選一天入園，不需指定日期，保有行程絕佳彈性\n\n\n\n－ 使用說明 －\n\n．使用對象：限非日本國籍購買\n．兌換期限：有效期限內，可任選一日入園\n．有效期限：即日起至2019年01月09日止\n．營業時間：9:00am-9:00pm \n．地址：554-0031 Osaka Prefecture, Osaka, Konohana Ward, Sakurajima, 2-1-33\n．如何抵達：大阪市區搭乘JR環狀線，於西九條站換乘JR櫻島線，在UniversalCity站下車，徒步三分鐘即達\n\n\n\n－ 票券介紹 －\n\n日本環球影城® （Universal Studios Japan® ）是一座以好萊塢電影為主題的大型樂園，更是去大阪旅遊不能錯過的世界級主題樂園。園區內代表性的遊樂設施有哈利波特禁忌之旅、小小兵・瘋狂乘車遊、飛天翼龍、好萊塢美夢・乘車遊等，快來親身感受這世界級的娛樂體驗吧！\n\n\n\n－ 方案介紹 －\n\n．成人票：12歲至64歲\n．孩童票：4歲至11歲\n＊0-3歲幼兒免費入園，KKday無販售65歲以上敬老票。\n\n\n\n－ 重要資訊 － \n\n．此票券一旦付款成功，將無法退換或更改\n．此票券有效期限內，可任選一日入園，將不需指定入園時間\n．此票券只提供給非日本、韓國國籍的旅客購買\n\n\n\n－ 兌換方式 －\n \n1. 訂單成立後，在訂購人email信箱內收到電子門票。\n2. 收到電子門票後建議列印出來，當天入園時掃描 QR code 直接入場。',
   priceDetail: ''
 };
 
@@ -270,7 +278,13 @@ export default {
           datetime: '2019-06-28'
         }
       ],
-      distForm: this.$form.createForm(this)
+      distForm: this.$form.createForm(this),
+      dialog: {
+        visible: false,
+        x: 0,
+        y: 0
+      },
+      selectedText: ''
     };
   },
   computed: {
@@ -287,6 +301,40 @@ export default {
         });
         return acc;
       }, []);
+    }
+  },
+  mounted() {
+    document.getElementById('screen').addEventListener('mouseup', this.onMouseup);
+  },
+  beforeDestroy() {
+    document.getElementById('screen').removeEventListener('mouseup', this.onMouseup);
+  },
+  methods: {
+    sanitize(content) {
+      if (!content) return '-';
+      return sanitizeHtml(content, {
+        allowedTags: [],
+        allowedAttributes: {}
+      }).trim();
+    },
+    onMouseup() {
+      const selection = window.getSelection();
+      if (!selection.anchorNode) return;
+
+      const selectionParent = selection.getRangeAt(0).commonAncestorContainer.parentElement;
+      if (selectionParent.classList.contains('highlightable')) {
+        const { x, y, width } = selection.getRangeAt(0).getBoundingClientRect();
+        if (!width) {
+          this.dialog.visible = false;
+          return;
+        }
+        this.dialog.x = x + (width / 2) + 10;
+        this.dialog.y = y + window.scrollY + 40;
+        this.dialog.visible = true;
+        this.selectedText = selection.toString();
+      } else {
+        this.dialog.visible = false;
+      }
     }
   }
 };
@@ -312,5 +360,16 @@ export default {
       }
     }
   }
+}
+.product-content {
+  white-space: pre-line;
+  height: 283px;
+  overflow-y: scroll;
+  background: #f5f5f5;
+  border: 1px solid rgb(217, 217, 217);
+  border-radius: 5px;
+  padding: 10px;
+  color: rgba(0,0,0,.25);
+  display: flex;
 }
 </style>
