@@ -78,7 +78,10 @@
         <span slot="source">{{ languages[select.lang] }}</span>
         <span slot="target">{{ languages[select.target] }}</span>
         <template slot="sourceText" slot-scope="value">
-          <a-textarea :value="value" disabled :rows="10" />
+          <highlightable>
+            <!-- <a-textarea :value="value" disabled :rows="30" /> -->
+            <p>{{ value }}</p>
+          </highlightable>
         </template>
         <template slot="targetLang" slot-scope="row">
           <a-textarea v-model="targetLang[row.key]" placeholder="" :rows="10" />
@@ -191,6 +194,7 @@
 </template>
 <script>
 import { languages, caseStatus, editLangColumn } from '@/config/constants';
+import highlightable from '@/components/highlightable';
 
 const sourceLang = {
   name: '【曼谷泰式按摩 】Lets Relax Spa 按摩體驗預約（Siam Square One 分店',
@@ -202,6 +206,9 @@ const targetLang = Object.keys(editLangColumn).reduce((acc, cur) => ({ ...acc, [
 
 export default {
   name: 'Editing',
+  components: {
+    highlightable
+  },
   data() {
     const columns = [
       {
