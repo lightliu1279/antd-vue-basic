@@ -29,6 +29,10 @@ const menuMap = [
       {
         label: 'Case List (F&V)',
         route: { name: 'CaseListOther' }
+      },
+      {
+        label: 'Case Assignment',
+        route: { name: 'CaseAssignment' }
       }
     ]
   },

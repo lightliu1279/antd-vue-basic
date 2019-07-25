@@ -81,6 +81,17 @@ export const routers = [
         }
       },
       {
+        name: 'CaseAssignment',
+        path: '/cases/assignment',
+        component: loadView('case/Assignment'),
+        meta: {
+          title: 'Cases Assignment',
+          breadcrumb: [
+            { label: 'Assignment' }
+          ]
+        }
+      },
+      {
         name: 'Editing',
         path: '/products/:oid',
         component: loadView('products/Editing'),

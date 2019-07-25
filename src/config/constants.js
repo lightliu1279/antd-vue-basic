@@ -72,6 +72,21 @@ export const caseStatus = {
   }
 };
 
+export const caseActions = {
+  read: {
+    label: 'Read'
+  },
+  edit: {
+    label: 'Edit'
+  },
+  review: {
+    label: 'Review'
+  },
+  create: {
+    label: 'Create'
+  }
+};
+
 export const languages = {
   'en': 'English',
   'vi': 'Tiếng Việt',
