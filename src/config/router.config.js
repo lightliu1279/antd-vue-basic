@@ -59,6 +59,28 @@ export const routers = [
         }
       },
       {
+        name: 'CaseListAdmin',
+        path: '/cases-admin',
+        component: loadView('case/ListAdmin'),
+        meta: {
+          title: 'Cases',
+          breadcrumb: [
+            { label: 'Cases' }
+          ]
+        }
+      },
+      {
+        name: 'CaseListOther',
+        path: '/cases-others',
+        component: loadView('case/ListOther'),
+        meta: {
+          title: 'Cases',
+          breadcrumb: [
+            { label: 'Cases' }
+          ]
+        }
+      },
+      {
         name: 'Editing',
         path: '/products/:oid',
         component: loadView('products/Editing'),
