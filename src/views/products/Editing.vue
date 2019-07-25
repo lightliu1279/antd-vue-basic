@@ -322,19 +322,20 @@ export default {
       if (!selection.anchorNode) return;
 
       const selectionParent = selection.getRangeAt(0).commonAncestorContainer.parentElement;
-      if (selectionParent.classList.contains('highlightable')) {
-        const { x, y, width } = selection.getRangeAt(0).getBoundingClientRect();
-        if (!width) {
-          this.dialog.visible = false;
-          return;
-        }
-        this.dialog.x = x + (width / 2) + 10;
-        this.dialog.y = y + window.scrollY + 40;
-        this.dialog.visible = true;
-        this.selectedText = selection.toString();
-      } else {
+      if (!selectionParent.classList.contains('highlightable')) {
         this.dialog.visible = false;
+        return;
       }
+
+      const { x, y, width } = selection.getRangeAt(0).getBoundingClientRect();
+      if (!width) {
+        this.dialog.visible = false;
+        return;
+      }
+      this.dialog.x = x + (width / 2) + 10;
+      this.dialog.y = y + window.scrollY + 40;
+      this.dialog.visible = true;
+      this.selectedText = selection.toString();
     }
   }
 };
