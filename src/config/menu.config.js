@@ -23,13 +23,13 @@ const menuMap = [
     icon: 'audit',
     children: [
       {
-        label: 'Case List (Admin)',
-        route: { name: 'CaseListAdmin' }
+        label: 'List',
+        route: { name: 'CaseList' }
       },
-      {
-        label: 'Case List (F&V)',
-        route: { name: 'CaseListOther' }
-      },
+      // {
+      //   label: 'Case List (F&V)',
+      //   route: { name: 'CaseListOther' }
+      // },
       {
         label: 'Case Assignment',
         route: { name: 'CaseAssignment' }

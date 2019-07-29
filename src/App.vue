@@ -5,6 +5,10 @@
       name="highlightable"
       multiple
     />
+    <portal-target
+      name="modal"
+      multiple
+    />
   </div>
 </template>
 <script>

@@ -1,5 +1,17 @@
 <template>
   <a-row>
+    <div>
+      <p>切換角色 change layout</p>
+      <a-radio-group v-model="isAdmin">
+        <a-radio :value="true">
+          Admin
+        </a-radio>
+        <a-radio :value="false">
+          F&V
+        </a-radio>
+      </a-radio-group>
+    </div>
+    <a-divider />
     <div class="form-search pb-15">
       <a-form :form="form" @submit="handleSubmit">
         <a-row type="flex">
@@ -28,7 +40,7 @@
             </a-form-item>
           </a-col>
 
-          <a-col :lg="8" :md="12" :xs="24">
+          <a-col v-show="isAdmin" :lg="8" :md="12" :xs="24">
             <a-form-item label="Acceptor Name">
               <a-select
                 v-decorator="['accptor']"
@@ -94,9 +106,8 @@
         </a-row>
       </a-form>
     </div>
-
     <a-divider />
-    <div class="mb-15">
+    <div v-show="isAdmin" class="mb-15">
       <router-link :to="{ name: 'CaseAssignment' }">
         <a-button type="primary">
           <a-icon type="plus" />
@@ -113,28 +124,73 @@
       bordered
       @change="handleTableChange"
     >
+      <span slot="caseId" slot-scope="caseId">
+        <router-link
+          :to="{
+            name:'CaseAssignmentReview',
+            params: {
+              caseId: caseId
+            }
+          }"
+        >{{ caseId }}</router-link>
+      </span>
       <span slot="targetLang" slot-scope="lang">
         {{ languages[lang] }}
       </span>
-      <span slot="caseStatus" slot-scope="status">
-        {{ caseStatus[status].label.en }}
+      <span slot="caseStatus" slot-scope="status, record">
+        <a-tag
+          class="m-0"
+          :color="caseStatus[status].color || '#ddd'"
+        >{{ caseStatus[status].label.en }}</a-tag>
+        <p class="text-center">({{ record.statusManager }})</p>
       </span>
       <span slot="action" slot-scope="record">
-        <a-button type="primary" icon="form" size="small">Edit</a-button>
-        <a-divider type="vertical" />
-        <a-popconfirm
-          v-if="data.length"
-          title="Are you sure cancel this case"
-          @confirm="onDelete(record.caseId)"
-        >
-          <a-button type="danger" icon="delete" size="small">cancel</a-button>
-        </a-popconfirm>
+        <template v-if="isAdmin">
+          <div class="mb-10">
+            <a-button type="primary" icon="form" size="small">Edit</a-button>
+          </div>
+          <div>
+            <a-popconfirm
+              v-if="data.length"
+              placement="topRight"
+              title="Are you sure cancel this case"
+              @confirm="onDelete(record.caseId)"
+            >
+              <a-button type="danger" icon="delete" size="small">cancel</a-button>
+            </a-popconfirm>
+          </div>
+        </template>
+        <template v-else>
+          <div class="mb-10">
+            <a-button type="primary" icon="form" size="small">Edit</a-button>
+          </div>
+          <div class="mb-10">
+            <a-button type="primary" icon="search" size="small">Read</a-button>
+          </div>
+          <div class="mb-10">
+            <a-button type="primary" icon="check" size="small">Accept</a-button>
+          </div>
+          <div class="mb-10">
+            <a-button type="danger" icon="stop" size="small" @click="handleRejectModal(record)">Reject</a-button>
+          </div>
+          <span>Due date: {{ record.dueDate }}</span>
+        </template>
       </span>
     </a-table>
+
+    <reject-case
+      ref="rejectForm"
+      potral="modal"
+      :visible="modalVisible"
+      :reject-item="rejectItem"
+      @cancel="handleRejectCancel"
+      @create="handleRejectCreate"
+    />
   </a-row>
 </template>
 <script>
 import { caseStatus, languages } from '@/config/constants';
+import RejectCase from '@/components/modal/RejectCase';
 
 // table column setting
 const columns = [
@@ -183,7 +239,7 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
-    width: '200px',
+    width: '120px',
     scopedSlots: { customRender: 'action' }
   }
 ];
@@ -195,16 +251,22 @@ const results = [
     productName: '【曼谷泰式按摩 】Lets Relax Spa 按摩體驗預約（Siam Square One 分店',
     targetLang: 'en',
     assigner: 'Coco',
+    statusManager: 'Ella',
     acceptor: 'KK',
     caseStatus: 's3',
-    updated: '2019-6-3'
+    updated: '2019-6-3',
+    dueDate: '2019-8-10'
   }
 ];
 
 export default {
   name: 'CaseList',
+  components: {
+    'reject-case': RejectCase
+  },
   data() {
     return {
+      isAdmin: true,
       columns,
       data: [],
       loading: false,
@@ -216,8 +278,15 @@ export default {
       form: this.$form.createForm(this),
       params: {},
       caseStatus,
-      languages
+      languages,
+      modalVisible: false,
+      rejectItem: null
     };
+  },
+  computed: {
+    rejectForm() {
+      return this.$refs && this.$refs.rejectForm.form || null;
+    }
   },
   created() {
     this.getTableList();
@@ -238,7 +307,7 @@ export default {
         this.pagination = pagination;
         this.data = [...results];
         this.loading = false;
-      }, 1000);
+      }, 500);
     },
     handleTableChange(pagination) {
       const pager = { ...this.pagination };
@@ -261,12 +330,36 @@ export default {
     },
     onDelete(id) {
       const dataSource = [...this.data];
-      this.data = dataSource.filter(item => item.login.uuid !== id);
+      this.data = dataSource.filter(item => item.caseId !== id);
       this.$notification['success']({
         message: '刪除成功',
-        description: `刪除 => uuid: ${id}`
+        description: `刪除 => caseId: ${id}`
       });
+    },
+    handleRejectModal(item) {
+      this.modalVisible = !this.modalVisible;
+      this.rejectItem = { ...item };
+    },
+    handleRejectCancel(form = this.rejectForm) {
+      this.modalVisible = false;
+      this.rejectItem = null;
+      form && form.resetFields();
+    },
+    handleRejectCreate(form = this.rejectForm) {
+      if (form) {
+        form.validateFields((err, values) => {
+          if (err) return;
+
+          console.log('Received values of form: ', values);
+          this.handleRejectCancel();
+        });
+      }
     }
   }
 };
 </script>
+<style lang="scss" scoped>
+  .ant-tag {
+    cursor: default;
+  }
+</style>

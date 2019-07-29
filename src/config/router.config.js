@@ -30,7 +30,6 @@ export const routers = [
         meta: {
           title: 'Table',
           breadcrumb: [
-            { label: 'Prototype' },
             { label: 'Table' }
           ]
         }
@@ -42,7 +41,6 @@ export const routers = [
         meta: {
           title: 'Button',
           breadcrumb: [
-            { label: 'Prototype' },
             { label: 'Button' }
           ]
         }
@@ -59,20 +57,9 @@ export const routers = [
         }
       },
       {
-        name: 'CaseListAdmin',
-        path: '/cases-admin',
-        component: loadView('case/ListAdmin'),
-        meta: {
-          title: 'Cases',
-          breadcrumb: [
-            { label: 'Cases' }
-          ]
-        }
-      },
-      {
-        name: 'CaseListOther',
-        path: '/cases-others',
-        component: loadView('case/ListOther'),
+        name: 'CaseList',
+        path: '/cases',
+        component: loadView('case/List'),
         meta: {
           title: 'Cases',
           breadcrumb: [
@@ -82,12 +69,29 @@ export const routers = [
       },
       {
         name: 'CaseAssignment',
-        path: '/cases/assignment',
+        path: '/assignment',
         component: loadView('case/Assignment'),
         meta: {
           title: 'Cases Assignment',
           breadcrumb: [
             { label: 'Assignment' }
+          ]
+        }
+      },
+      {
+        name: 'CaseAssignmentReview',
+        path: '/cases/:caseId',
+        component: loadView('case/AssignmentReview'),
+        meta: {
+          title: 'Cases Assignment Review',
+          breadcrumb: [
+            {
+              label: 'Cases',
+              route: {
+                name: 'CaseList'
+              }
+            },
+            { label: params => params.caseId || 'undefined' }
           ]
         }
       },
