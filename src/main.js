@@ -5,11 +5,13 @@ import 'ant-design-vue/dist/antd.min.css';
 import { sync } from 'vuex-router-sync';
 import Nprogress from 'nprogress';
 import 'nprogress/nprogress.css';
+import PortalVue from 'portal-vue';
 
 import router from '@/router';
 import store from '@/store';
 
 Vue.use(Antd);
+Vue.use(PortalVue);
 Vue.config.productionTip = false;
 Nprogress.configure({
   showSpinner: false,

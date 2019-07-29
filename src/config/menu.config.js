@@ -18,8 +18,27 @@ const menuMap = [
     ]
   },
   {
-    label: 'Prototype',
+    label: 'Case',
     index: 3,
+    icon: 'audit',
+    children: [
+      {
+        label: 'List',
+        route: { name: 'CaseList' }
+      },
+      // {
+      //   label: 'Case List (F&V)',
+      //   route: { name: 'CaseListOther' }
+      // },
+      {
+        label: 'Case Assignment',
+        route: { name: 'CaseAssignment' }
+      }
+    ]
+  },
+  {
+    label: 'Prototype',
+    index: 4,
     icon: 'tool',
     children: [
       {
