@@ -190,18 +190,18 @@
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, fugiat quos! Accusamus accusantium consequatur fugiat, a quae temporibus praesentium consectetur.</p>
     </a-drawer>
 
-    <portal to="highlightable">
+    <!-- <portal to="highlightable">
       <highlightable
         :visible.sync="dialog.visible"
         :x-axis="dialog.x"
         :y-axis="dialog.y"
       />
-    </portal>
+    </portal> -->
   </a-row>
 </template>
 <script>
 import { languages, caseStatus, editLangColumn } from '@/config/constants';
-import highlightable from '@/components/highlightable';
+// import highlightable from '@/components/highlightable';
 import sanitizeHtml from 'sanitize-html';
 
 const sourceLang = {
@@ -214,9 +214,9 @@ const targetLang = Object.keys(editLangColumn).reduce((acc, cur) => ({ ...acc, [
 
 export default {
   name: 'Editing',
-  components: {
-    highlightable
-  },
+  // components: {
+  //   highlightable
+  // },
   data() {
     const columns = [
       {
