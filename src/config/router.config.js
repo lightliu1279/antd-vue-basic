@@ -71,6 +71,14 @@ export const routers = [
         name: 'CaseAssignment',
         path: '/assignment',
         component: loadView('case/Assignment'),
+        props: route => {
+          const { productOid, targetLang } = route.params;
+          console.log(route.params);
+          return {
+            productOid: Number(productOid) || undefined,
+            targetLang
+          };
+        },
         meta: {
           title: 'Cases Assignment',
           breadcrumb: [
@@ -99,6 +107,7 @@ export const routers = [
         name: 'Editing',
         path: '/products/:oid',
         component: loadView('products/Editing'),
+        props: true,
         meta: {
           title: 'Editing',
           breadcrumb: [
