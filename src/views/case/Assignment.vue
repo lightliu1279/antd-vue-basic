@@ -149,7 +149,6 @@
 <script>
 import { caseStatus, languages, editLangColumn } from '@/config/constants';
 import sanitizeHtml from 'sanitize-html';
-import { setTimeout } from 'timers';
 
 const sourceLang = {
   name: '【曼谷泰式按摩 】Lets Relax Spa 按摩體驗預約（Siam Square One 分店',
