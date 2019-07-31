@@ -170,11 +170,14 @@
         </template>
       </a-table>
     </div>
+    <Memo :visible.sync="memoVisible" :comments="comments" />
+    <Dictionary :visible.sync="dictVisible" />
   </a-row>
 </template>
 
 <script>
 import { caseStatus, languages, editLangColumn } from '@/config/constants';
+import { Memo, Dictionary } from '@/components/drawer';
 import sanitizeHtml from 'sanitize-html';
 
 const sourceLang = {
@@ -189,8 +192,34 @@ const targetLang = {
   priceDetail: ''
 };
 
+const comments = [
+  {
+    actions: ['Reply to'],
+    author: 'Han Solo',
+    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+    datetime: '2019-06-28'
+  }, {
+    actions: ['Reply to'],
+    author: 'Han Solo',
+    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+    datetime: '2019-06-28'
+  }, {
+    actions: ['Reply to'],
+    author: 'Han Solo',
+    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+    datetime: '2019-06-28'
+  }
+];
+
 export default {
   name: 'AssignmentReview',
+  components: {
+    Memo,
+    Dictionary
+  },
   props: {
     caseId: {
       type: String,
@@ -227,6 +256,9 @@ export default {
       editLangColumn,
       columns,
       tableLoading: true,
+      memoVisible: false,
+      dictVisible: false,
+      comments,
       info: {
         productName: '【曼谷泰式按摩 】Lets Relax Spa 按摩體驗預約（Siam Square One 分店)',
         targetLang: 'en',
