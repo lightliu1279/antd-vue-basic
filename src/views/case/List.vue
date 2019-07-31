@@ -125,14 +125,19 @@
       @change="handleTableChange"
     >
       <span slot="caseId" slot-scope="caseId">
-        <router-link
-          :to="{
-            name:'CaseAssignmentReview',
-            params: {
-              caseId: caseId
-            }
-          }"
-        >{{ caseId }}</router-link>
+        <template v-if="isAdmin">
+          <router-link
+            :to="{
+              name:'CaseAssignmentReview',
+              params: {
+                caseId: caseId
+              }
+            }"
+          >{{ caseId }}</router-link>
+        </template>
+        <template v-else>
+          <span>{{ caseId }}</span>
+        </template>
       </span>
       <span slot="targetLang" slot-scope="lang">
         {{ languages[lang] }}
@@ -156,7 +161,7 @@
               title="Are you sure cancel this case"
               @confirm="onDelete(record.caseId)"
             >
-              <a-button type="danger" icon="delete" size="small">cancel</a-button>
+              <a-button type="danger" icon="delete" size="small">Cancel</a-button>
             </a-popconfirm>
           </div>
         </template>
@@ -248,7 +253,7 @@ const columns = [
 const results = [
   {
     caseId: '24849-3-2',
-    productName: '【曼谷泰式按摩 】Lets Relax Spa 按摩體驗預約（Siam Square One 分店',
+    productName: '【曼谷泰式按摩 】Lets Relax Spa 按摩體驗預約（Siam Square One 分店)',
     targetLang: 'en',
     assigner: 'Coco',
     statusManager: 'Ella',

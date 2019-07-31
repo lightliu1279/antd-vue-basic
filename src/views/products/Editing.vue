@@ -8,10 +8,10 @@
 
     <a-col :sm="24">
       <a-row>
-        <a-col :md="3" :sm="24">
+        <a-col :sm="24" class="mb-10">
           <span>Source Language : </span>
         </a-col>
-        <a-col :md="5" :sm="24">
+        <a-col :sm="24">
           <a-select v-model="select.lang" :style="{ 'width': '150px' }">
             <a-select-option v-for="(lang, key) in languages" :key="key" :value="key">
               {{ lang }}
@@ -21,10 +21,10 @@
       </a-row>
 
       <a-row class="mt-15">
-        <a-col :md="3" :sm="24">
+        <a-col :sm="24" class="mb-10">
           <span>Target Language : </span>
         </a-col>
-        <a-col :md="19" :sm="24">
+        <a-col :sm="24">
           <a-radio-group v-model="select.target">
             <a-radio-button v-for="(lang, key) in languages" :key="key" :value="key">
               <p>{{ lang }}</p>
@@ -217,6 +217,12 @@ export default {
   // components: {
   //   highlightable
   // },
+  props: {
+    oid: {
+      type: String,
+      default: () => ''
+    }
+  },
   data() {
     const columns = [
       {

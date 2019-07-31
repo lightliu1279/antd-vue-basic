@@ -112,14 +112,33 @@
         <a-tag v-if="auto === '0'" color="red">No</a-tag>
         <a-tag v-else color="blue">Yes</a-tag>
       </span>
-      <span slot="caseStatus" slot-scope="status">
-        <a-tag :color="caseStatus[status].color || '#ddd'">{{ caseStatus[status].label.en }}</a-tag>
+      <span slot="caseStatus" slot-scope="status, record">
+        <template v-if="status === 's1'">
+          <router-link
+            :to="{
+              name: 'CaseAssignment',
+              params: {
+                productOid: record.oid,
+                targetLang: record.lang
+              }
+            }"
+            class="other-link"
+          >
+            <a-tooltip placement="top" title="go to assign">
+              <a-tag :color="caseStatus[status].color || '#ddd'">{{ caseStatus[status].label.en }}</a-tag>
+            </a-tooltip>
+          </router-link>
+        </template>
+        <template v-else>
+          <a-tag :color="caseStatus[status].color || '#ddd'">{{ caseStatus[status].label.en }}</a-tag>
+        </template>
       </span>
     </a-table>
   </a-row>
 </template>
 
 <script>
+
 import { caseStatus, languages } from '@/config/constants';
 const crossRow = (value, row, index) => {
   const langCount = Object.keys(languages).length;
@@ -390,7 +409,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .ant-tag {
+.ant-tag {
     cursor: default;
   }
+.other-link {
+  .ant-tag {
+    cursor: pointer;
+  }
+}
 </style>
