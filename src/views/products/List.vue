@@ -101,37 +101,31 @@
       :row-selection="rowSelection"
       @change="handleTableChange"
     >
-      <span slot="language" slot-scope="lang">{{ languages[lang] }}</span>
-      <span slot="tag" slot-scope="tag">
-        <a-tag v-if="tag" color="red">{{ tag }}</a-tag>
+      <span slot="language" slot-scope="lang, record">
+        <span>{{ languages[lang] }}</span>
+        <br>
+        <a-tag v-if="record.tag" color="red" class="mt-10" closable>{{ record.tag }}</a-tag>
       </span>
+      <!-- <span slot="tag" slot-scope="tag">
+        <a-tag v-if="tag" color="red">{{ tag }}</a-tag>
+      </span> -->
       <span
         slot="machineTranslate"
         slot-scope="auto"
+        class="machine-translate"
       >
-        <a-tag v-if="auto === '0'" color="red">No</a-tag>
-        <a-tag v-else color="blue">Yes</a-tag>
+        <a-icon :type="auto ? 'close-circle' : 'check-circle'" class="checked-icon" theme="filled" />
       </span>
       <span slot="caseStatus" slot-scope="status, record">
-        <template v-if="status === 's1'">
-          <router-link
-            :to="{
-              name: 'CaseAssignment',
-              params: {
-                productOid: record.oid,
-                targetLang: record.lang
-              }
-            }"
-            class="other-link"
-          >
-            <a-tooltip placement="top" title="go to assign">
-              <a-tag :color="caseStatus[status].color || '#ddd'">{{ caseStatus[status].label.en }}</a-tag>
-            </a-tooltip>
-          </router-link>
-        </template>
-        <template v-else>
-          <a-tag :color="caseStatus[status].color || '#ddd'">{{ caseStatus[status].label.en }}</a-tag>
-        </template>
+        <CaseStatusTag
+          :has-link="['s1', 's8', 's9', 's10'].includes(status)"
+          :oid="record.oid"
+          :target-leng="record.lang"
+          :color="caseStatus[status].color || '#ddd'"
+          :label="caseStatus[status].label.en"
+          :editing="status === 's1' ? 'Samuel' : null"
+          :status="status"
+        />
       </span>
     </a-table>
   </a-row>
@@ -140,6 +134,8 @@
 <script>
 
 import { caseStatus, languages } from '@/config/constants';
+import CaseStatusTag from '@/views/products/components/CaseStatusTag';
+
 const crossRow = (value, row, index) => {
   const langCount = Object.keys(languages).length;
   let rowSpan = 0;
@@ -162,7 +158,7 @@ const results = [
     lang: 'en',
     status: 's1',
     caseId: '01',
-    machineTranslate: '0',
+    machineTranslate: 0,
     created: '2019-06-17 10:17:27',
     update: '2019-06-17 10:17:27',
     tag: 'To be Updated'
@@ -174,7 +170,7 @@ const results = [
     lang: 'vi',
     status: 's2',
     caseId: '02',
-    machineTranslate: '0',
+    machineTranslate: 0,
     created: '2019-06-17 10:17:27',
     update: '2019-06-17 10:17:27'
   },
@@ -185,7 +181,7 @@ const results = [
     lang: 'th',
     status: 's3',
     caseId: '-',
-    machineTranslate: '1',
+    machineTranslate: 1,
     created: '2019-06-17 10:17:27',
     update: '2019-06-17 10:17:27'
   },
@@ -196,7 +192,7 @@ const results = [
     lang: 'zh-cn',
     status: 's4',
     caseId: '-',
-    machineTranslate: '1',
+    machineTranslate: 1,
     created: '2019-06-17 10:17:27',
     update: '2019-06-17 10:17:27'
   },
@@ -207,7 +203,7 @@ const results = [
     lang: 'zh-hk',
     status: 's5',
     caseId: '-',
-    machineTranslate: '1',
+    machineTranslate: 1,
     created: '2019-06-17 10:17:27',
     update: '2019-06-17 10:17:27'
   },
@@ -218,7 +214,7 @@ const results = [
     lang: 'zh-tw',
     status: 's6',
     caseId: '-',
-    machineTranslate: '0',
+    machineTranslate: 0,
     created: '2019-06-17 10:17:27',
     update: '2019-06-17 10:17:27'
   },
@@ -229,7 +225,7 @@ const results = [
     lang: 'ja',
     status: 's7',
     caseId: '-',
-    machineTranslate: '1',
+    machineTranslate: 1,
     created: '2019-06-17 10:17:27',
     update: '2019-06-17 10:17:27'
   },
@@ -240,7 +236,7 @@ const results = [
     lang: 'ko',
     status: 's8',
     caseId: '-',
-    machineTranslate: '0',
+    machineTranslate: 0,
     created: '2019-06-17 10:17:27',
     update: '2019-06-17 10:17:27'
   },
@@ -251,7 +247,7 @@ const results = [
     lang: 'en',
     status: 's9',
     caseId: '01',
-    machineTranslate: '0',
+    machineTranslate: 0,
     created: '2019-06-17 10:17:27',
     update: '2019-06-17 10:17:27'
   },
@@ -262,7 +258,7 @@ const results = [
     lang: 'vi',
     status: 's10',
     caseId: '02',
-    machineTranslate: '0',
+    machineTranslate: 0,
     created: '2019-06-17 10:17:27',
     update: '2019-06-17 10:17:27'
   }
@@ -270,6 +266,9 @@ const results = [
 
 export default {
   name: 'ProductList',
+  components: {
+    CaseStatusTag
+  },
   data() {
     // setup table column
     const columns = [
@@ -304,12 +303,12 @@ export default {
         key: 'language',
         scopedSlots: { customRender: 'language' }
       },
-      {
-        dataIndex: 'tag',
-        title: 'Tag',
-        key: 'tag',
-        scopedSlots: { customRender: 'tag' }
-      },
+      // {
+      //   dataIndex: 'tag',
+      //   title: 'Tag',
+      //   key: 'tag',
+      //   scopedSlots: { customRender: 'tag' }
+      // },
       {
         dataIndex: 'machineTranslate',
         title: 'Machine Translation',
@@ -325,6 +324,7 @@ export default {
         dataIndex: 'status',
         title: 'Case Status',
         key: 'caseStatus',
+        width: '200px',
         scopedSlots: { customRender: 'caseStatus' }
       },
       {
@@ -417,4 +417,27 @@ export default {
     cursor: pointer;
   }
 }
+
+.machine-translate {
+  .anticon {
+    display: flex;
+    justify-content: center;
+    svg {
+      width: 1.7em;
+      height: 1.7em;
+    }
+
+    &.anticon-close-circle {
+      svg {
+        fill: #ddd;
+      }
+    }
+    &.anticon-check-circle {
+      svg {
+        fill: #87d068;
+      }
+    }
+  }
+}
+
 </style>

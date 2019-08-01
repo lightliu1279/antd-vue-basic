@@ -19,16 +19,18 @@
           </a-col>
 
           <a-col :lg="8" :md="12" :xs="24">
-            <a-form-item label="Acceptor">
+            <a-form-item label="Target Language">
               <a-select
-                v-decorator="['accptor']"
-                placeholder="acceptor"
+                v-decorator="[
+                  'targetLang',
+                  {
+                    initialValue: targetLang,
+                    rules: [{ required: true, message: 'require target language' }]}
+                ]"
+                placeholder="target language"
               >
-                <a-select-option value="yoyo">
-                  yoyo
-                </a-select-option>
-                <a-select-option value="Hebe">
-                  Hebe
+                <a-select-option v-for="(lang, key) in languages" :key="key" :value="key">
+                  {{ lang }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -51,18 +53,16 @@
           </a-col>
 
           <a-col :lg="8" :md="12" :xs="24">
-            <a-form-item label="Target Language">
+            <a-form-item label="Acceptor">
               <a-select
-                v-decorator="[
-                  'targetLang',
-                  {
-                    initialValue: targetLang,
-                    rules: [{ required: true, message: 'require target language' }]}
-                ]"
-                placeholder="target language"
+                v-decorator="['accptor']"
+                placeholder="acceptor"
               >
-                <a-select-option v-for="(lang, key) in languages" :key="key" :value="key">
-                  {{ lang }}
+                <a-select-option value="yoyo">
+                  yoyo
+                </a-select-option>
+                <a-select-option value="Hebe">
+                  Hebe
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -72,15 +72,6 @@
             <a-form-item label="Due Date">
               <a-date-picker
                 v-decorator="['dueDate']"
-                :style="{ 'width': '100%' }"
-              />
-            </a-form-item>
-          </a-col>
-
-          <a-col :lg="8" :md="12" :xs="24">
-            <a-form-item label="Reminder befor Assignee submit">
-              <a-date-picker
-                v-decorator="['remindDate']"
                 :style="{ 'width': '100%' }"
               />
             </a-form-item>
