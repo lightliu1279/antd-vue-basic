@@ -9,7 +9,7 @@
                 v-decorator="['oid']"
                 placeholder="Oid"
                 :parser="value => value.replace(/\$\s?|(,*)/g, '')"
-                :style="{ 'width': '150px' }"
+                :style="{ 'width': '100%' }"
               />
             </a-form-item>
           </a-col>

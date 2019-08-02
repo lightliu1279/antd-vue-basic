@@ -1,12 +1,10 @@
 <template functional>
-  <div>
+  <div class="status-label">
     <template v-if="props.hasLink">
-      <!-- <a-tag :color="props.color">
-        <span>{{ props.label }}{{ props.editing ? ` - ${props.editing}` : '' }}</span>
-      </a-tag> -->
-      <a-badge :status="$options.methods.handleStatus(props.status)" />
-      <span>{{ props.label }}{{ props.editing ? ` - ${props.editing}` : '' }}</span>
-
+      <a-badge
+        :status="$options.methods.handleStatus(props.status)"
+        :text="`${props.label}${ props.editing ? ` - ${props.editing}` : '' }`"
+      />
       <router-link
         :to="{
           name: 'CaseAssignment',
@@ -21,15 +19,11 @@
         <a-icon type="right" />
       </router-link>
     </template>
-
-    <!-- <a-tag v-else :color="props.color">
-      <span>{{ props.label }}</span>
-    </a-tag> -->
     <template v-else>
-      <!-- <a-badge status="success" /> {{ props.status }} -->
       <a-badge
         :status="$options.methods.handleStatus(props.status)"
-      />{{ props.label }}
+        :text="props.label"
+      />
     </template>
   </div>
 </template>
@@ -53,6 +47,7 @@ export default {
         case 's2':
         case 's3':
         case 's7':
+        case 's8':
           badgeStatus = 'processing';
           break;
         case 's4':
@@ -60,11 +55,10 @@ export default {
           badgeStatus = 'warning';
           break;
         case 's6':
-        case 's8':
+        case 's10':
           badgeStatus = 'error';
           break;
         case 's9':
-        case 's10':
           badgeStatus = 'success';
           break;
       }
@@ -75,8 +69,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .ant-tag {
-    font-size: 14px;
+.status-label {
+  .ant-badge {
+    ::v-deep .ant-badge-status-dot {
+      width: 7px;
+      height: 7px;
+      top: -1px;
+    }
   }
   .assignment-link {
     margin-top: 10px;
@@ -90,4 +89,6 @@ export default {
       margin-top: 2px;
     }
   }
+}
+
 </style>
