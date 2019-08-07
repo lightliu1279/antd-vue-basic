@@ -43,14 +43,10 @@ export default {
     Header,
     Footer
   },
-  data() {
-    return {
-      collapsed: false
-    };
-  },
   computed: {
     ...mapGetters([
-      'menu'
+      'menu',
+      'collapsed'
     ]),
     highLightItem() {
       const currentRoute = this.$route.name;
@@ -66,7 +62,7 @@ export default {
   },
   methods: {
     handleMenuCollapse(collapsed) {
-      this.collapsed = collapsed;
+      this.$store.dispatch('handleCollapsed', !this.collapsed);
     },
     breadCrumbDisplay(source) {
       if (typeof source === 'function') {
