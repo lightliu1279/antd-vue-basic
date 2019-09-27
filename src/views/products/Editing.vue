@@ -219,8 +219,8 @@ export default {
   // },
   props: {
     oid: {
-      type: String,
-      default: () => ''
+      type: Number,
+      default: () => undefined
     }
   },
   data() {

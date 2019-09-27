@@ -305,8 +305,9 @@ export default {
 <style lang="scss" scoped>
 .fixed-buttons {
   background: #fff;
-  padding: 15px 30px;
-  margin: 0 -30px 20px;
+  width: 100%;
+  padding: 15px 0;
+  margin-bottom: 20px;
 }
 .product-content {
   white-space: pre-line;
@@ -334,10 +335,5 @@ export default {
   p {
     margin-bottom: 0;
   }
-//   .acceptor {
-//     color: #868686;
-//     font-size: 14px;
-//     font-weight: 500;
-//   }
 }
 </style>

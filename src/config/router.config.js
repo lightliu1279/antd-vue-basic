@@ -107,7 +107,12 @@ export const routers = [
         name: 'Editing',
         path: '/products/:oid',
         component: loadView('products/Editing'),
-        props: true,
+        props: route => {
+          const oid = route.params;
+          return {
+            oid: Number(oid) || undefined
+          };
+        },
         meta: {
           title: 'Editing',
           breadcrumb: [
