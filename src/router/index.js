@@ -16,6 +16,12 @@ router.beforeEach((to, from, next) => {
   // if (to.name !== 'Login' && !isLogin()) {
   //   return next({ name: 'Login' });
   // }
+
+  Store.dispatch(
+    'handleCollapsed',
+    ['Editing', 'CaseAssignmentReview'].includes(to.name)
+  );
+
   Store.dispatch('handleProgress', true);
   return next();
 });

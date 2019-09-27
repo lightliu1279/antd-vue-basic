@@ -101,14 +101,46 @@
       :row-selection="rowSelection"
       @change="handleTableChange"
     >
-      <span slot="language" slot-scope="lang, record">
-        <span>{{ languages[lang] }}</span>
-        <br>
-        <a-tag v-if="record.tag" color="red" class="mt-10" closable>{{ record.tag }}</a-tag>
+      <span
+        slot="oid"
+        slot-scope="oid"
+      >
+        <router-link
+          :to="{
+            name: 'Editing',
+            params: {
+              oid: oid
+            }
+          }"
+        >
+          {{ oid }}
+        </router-link>
       </span>
-      <!-- <span slot="tag" slot-scope="tag">
-        <a-tag v-if="tag" color="red">{{ tag }}</a-tag>
-      </span> -->
+      <span
+        slot="productName"
+        slot-scope="name, record"
+      >
+        <router-link
+          :to="{
+            name: 'Editing',
+            params: {
+              oid: record.oid
+            }
+          }"
+        >
+          {{ name }}
+        </router-link>
+      </span>
+      <span
+        slot="language"
+        slot-scope="lang, record"
+        class="target-lang"
+      >
+        <a-tooltip v-if="record.tag" placement="top" title="to be updated">
+          <a-icon type="exclamation-circle" theme="filled" />
+        </a-tooltip>
+        <span>{{ languages[lang] }}</span>
+      </span>
       <span
         slot="machineTranslate"
         slot-scope="auto"
@@ -136,19 +168,6 @@
 import { caseStatus, languages } from '@/config/constants';
 import CaseStatusTag from '@/views/products/components/CaseStatusTag';
 
-const crossRow = (value, row, index) => {
-  const langCount = Object.keys(languages).length;
-  let rowSpan = 0;
-  if (index % langCount === 0) {
-    rowSpan = langCount;
-  }
-  return {
-    children: value,
-    attrs: {
-      rowSpan
-    }
-  };
-};
 // temporarily table data
 const results = [
   {
@@ -276,15 +295,16 @@ export default {
         dataIndex: 'oid',
         title: 'Product OID',
         key: 'oid',
-        customRender: crossRow
+        scopedSlots: { customRender: 'oid' }
       },
       {
         dataIndex: 'name',
         title: 'Product Name',
         key: 'name',
+        scopedSlots: { customRender: 'productName' }
+        /* return custom component with jsx
         customRender: (value, row, index) => {
           const obj = crossRow(value, row, index);
-          // return custom component with jsx
           obj.children =
             <router-link to={
               {
@@ -296,6 +316,7 @@ export default {
             }>{ row.name }</router-link>;
           return obj;
         }
+        */
       },
       {
         dataIndex: 'lang',
@@ -303,12 +324,6 @@ export default {
         key: 'language',
         scopedSlots: { customRender: 'language' }
       },
-      // {
-      //   dataIndex: 'tag',
-      //   title: 'Tag',
-      //   key: 'tag',
-      //   scopedSlots: { customRender: 'tag' }
-      // },
       {
         dataIndex: 'machineTranslate',
         title: 'Machine Translation',
@@ -335,8 +350,8 @@ export default {
       {
         dataIndex: 'update',
         title: 'Latest Updated Date',
-        key: 'update',
-        customRender: crossRow
+        key: 'update'
+        // customRender: crossRow
       }
     ];
 
@@ -409,12 +424,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ant-tag {
-    cursor: default;
-  }
-.other-link {
-  .ant-tag {
-    cursor: pointer;
+.target-lang {
+  .anticon {
+    margin-right: 3px;
+    svg {
+      width: 1.1em;
+      height: 1.1em;
+      fill: #faad14;
+    }
   }
 }
 
