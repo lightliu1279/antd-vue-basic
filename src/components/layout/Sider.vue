@@ -10,7 +10,8 @@
     <div class="logo">
       <h2 class="logo__title">
         <b>
-          <router-link :to="{ name: 'index' }">Katalyst</router-link></b>
+          <router-link :to="{ name: 'index' }">Translate System</router-link>
+        </b>
       </h2>
     </div>
 
@@ -23,10 +24,7 @@
       @select="onSelect"
     >
       <template v-for="item in menu">
-        <a-menu-item
-          v-if="!item.children"
-          :key="item.route.name"
-        >
+        <a-menu-item v-if="!item.children" :key="item.route.name">
           <a-icon v-if="item.icon" :type="item.icon" />
           <span>{{ item.label }}</span>
         </a-menu-item>
@@ -38,10 +36,7 @@
               <span>{{ item.label }}</span>
             </span>
 
-            <a-menu-item
-              v-for="child in item.children"
-              :key="child.route.name"
-            >
+            <a-menu-item v-for="child in item.children" :key="child.route.name">
               <a-icon v-if="child.icon" :type="child.icon" />
               <span>{{ child.label }}</span>
             </a-menu-item>

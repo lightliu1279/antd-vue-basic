@@ -4,18 +4,19 @@
     <a-layout-content>
       <div class="form-content">
         <h1 class="text-center app-title">
-          <span class="kkday">
+          <!-- <span class="kkday">
             <img src="@/assets/img/kkday_logo.svg" alt="">
-          </span>
-          <span class="ml-10">Katalyst</span>
+          </span> -->
+          <span class="ml-10">Translate system</span>
         </h1>
         <a-divider>Login</a-divider>
-        <a-alert v-if="hasError" type="error" message="wrong user's email or password" class="mb-15" />
-        <a-form
-          :form="form"
-          class="login-form"
-          @submit="handleSubmit"
-        >
+        <a-alert
+          v-if="hasError"
+          type="error"
+          message="wrong user's email or password"
+          class="mb-15"
+        />
+        <a-form :form="form" class="login-form" @submit="handleSubmit">
           <a-form-item>
             <a-input
               v-decorator="[
@@ -44,7 +45,10 @@
                 'password',
                 {
                   initialValue: 123456,
-                  rules: [{ required: true, message: 'Please input your password' }] }
+                  rules: [
+                    { required: true, message: 'Please input your password' }
+                  ]
+                }
               ]"
               :disabled="loading"
               type="password"
@@ -123,43 +127,42 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  @import '@/components/layout/style/utils.scss';
+@import '@/components/layout/style/utils.scss';
 
-  #login {
-      min-height: 100vh;
+#login {
+  min-height: 100vh;
 
-      .ant-layout-header {
-        background: transparent;
-      }
-      .ant-layout-content {
-        display: flex;
-        justify-content: center;
-      }
-      .form-content {
-        width: 50%;
-        max-width: 400px;
-        height: 100%;
-        margin-top: 60px;
-
-        .ant-divider {
-          margin-top: 45px;
-          &:before,
-          &:after {
-            border-top: 1px solid #dedede;
-          }
-        }
-        .app-title {
-          font-weight: 300;
-        }
-      }
-      .login-form {
-        .login-form-forgot {
-          float: right;
-        }
-        .login-form-button {
-          width: 100%;
-        }
-      }
+  .ant-layout-header {
+    background: transparent;
   }
-</style>
+  .ant-layout-content {
+    display: flex;
+    justify-content: center;
+  }
+  .form-content {
+    width: 50%;
+    max-width: 400px;
+    height: 100%;
+    margin-top: 60px;
 
+    .ant-divider {
+      margin-top: 45px;
+      &:before,
+      &:after {
+        border-top: 1px solid #dedede;
+      }
+    }
+    .app-title {
+      font-weight: 300;
+    }
+  }
+  .login-form {
+    .login-form-forgot {
+      float: right;
+    }
+    .login-form-button {
+      width: 100%;
+    }
+  }
+}
+</style>
